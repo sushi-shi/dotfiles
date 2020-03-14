@@ -8,27 +8,35 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     firefox tixati w3m wine
-     anki
+    # web 
+    firefox tixati w3m youtube-dl
 
-     man-pages ctags 
-     cabal2nix git nix-prefetch-git
-     ghc haskellPackages.hasktags
+    # social
+    tdesktop discord
 
-     htop tree entr wget psmisc unrar
-     mpv zathura ranger sxiv feh jrnl
-     unzip fzf gimp imagemagick
+    # media
+    mpv zathura ranger sxiv feh jrnl anki
 
-     (import ./vim.nix) vimHugeX
-     
-     linuxPackages.cpupower tlp
-     fish alacritty
-     tdesktop discord
-     libreoffice gimp
-     neofetch 
-     youtube-dl
-     upower
-     mysql-workbench
+    # vimHuge gives an access to a system clipboard
+    (import ./vim.nix) vimHugeX
+
+    # dev
+    man-pages ctags 
+    cabal2nix git nix-prefetch-git
+    ghc haskellPackages.hasktags
+    mysql-workbench
+
+    # utils
+    htop tree entr wget psmisc unrar
+    unzip fzf gimp imagemagick highlight
+    neofetch upower tlp linuxPackages.cpupower
+    
+    # shell/terminal
+    fish alacritty
+
+    # etc
+    wine
+    libreoffice 
   ];
 
   programs.fish = {

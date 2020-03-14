@@ -68,13 +68,4 @@
 
   # Changing brightness
   programs.light.enable = true;
-
-  # Keybindings
-  # services.actkbd = {
-  #   enable = true;
-  #   bindings = [
-  #     { keys = [ 232 ]; events = [ "key" ]; command = "light -U 10"; }
-  #     { keys = [ 233 ]; events = [ "key" ]; command = "light -A 10"; }
-  #   ];
-  # };
 }

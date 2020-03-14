@@ -33,7 +33,7 @@ Config
     [ "--template", "<essid>(<quality>)"
     , "--normal", "#7092FF", "--low", "#7092FF"
     , "--Low", "40", "--High", "110"
-    ] 150
+    ] 40
   , Run Brightness
     [ "--template", "Brightness: <percent>"
     , "--Low", "65", "--High", "101"

@@ -2,6 +2,8 @@ with import <nixpkgs> {};
 
 vim_configurable.customize {
   name = "vim";
+  # Hurts rebuilding the whole system for a line
+  # in vimrc, but I rarely change things here
   vimrcConfig.customRC = ''
 
     " sane defaults 
@@ -57,10 +59,7 @@ vim_configurable.customize {
     noremap ZZ <nop>
     noremap Q <nop>
 
-    " Searching
-    noremap f /
-    noremap F ?
-    " now you can f<query><space>n/N
+    " searching
     set nohlsearch
     set incsearch
     set ignorecase
@@ -111,9 +110,6 @@ vim_configurable.customize {
     " save and put the cursor were it was before
     nnoremap <leader>w mq:wa<cr>`q
 
-    " use vim-airline instead
-    set noshowmode
-
     " Haskell abbreviations
     iabbrev iq import qualified
     iabbrev hh <-
@@ -139,13 +135,10 @@ vim_configurable.customize {
     }
     { name = "vim-stylish-haskell"; ft_regex = "^hs\$"; }
     { names = [ 
+        # etc.
         "fzfWrapper" 
         "fzf-vim" 
-         
         "nerdtree" 
-        "vim-airline"
-        "vim-airline-themes"
-        "solarized"
       ]; 
     }
   ];

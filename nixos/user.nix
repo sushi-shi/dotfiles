@@ -6,12 +6,11 @@
     isNormalUser = true;
     shell = pkgs.fish;
     extraGroups = [ 
-      "wheel" 
+      "wheel"           # sudo  
       "networkmanager" 
-      "video"
+      "video"           # light
       "audio"
-      "lp"
-      "plugdev"
+      "lp"              # printer
     ]; 
   };
 }

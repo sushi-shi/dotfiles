@@ -3,7 +3,7 @@
     "default": "/home/sheep/journal.txt"
   },
   "editor": "vim",
-  "encrypt": false,
+  "encrypt": true,
   "default_hour": 9,
   "default_minute": 0,
   "timeformat": "%Y-%m-%d %H:%M",

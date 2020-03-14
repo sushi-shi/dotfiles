@@ -15,6 +15,7 @@ import           XMonad.StackSet              hiding (workspaces)
 import           XMonad.Util.EZConfig
 
 import           Control.Applicative          ((<|>))
+import           Control.Concurrent
 import           Control.Monad                (when)
 import qualified Data.List                    as L
 
@@ -35,10 +36,10 @@ myAdditionalKeys =
   [ ((myModMask .|. shiftMask, key), (windows $ shift ws))
   | (key, ws) <- myWorkspaces
   ] ++
-  -- there might be a data race, I'm not sure now
-  [ ((myModMask, xK_c), (withFocused killWindow) >> sendMessage Killed) ] ++
-  [ ((myModMask, xK_i), (sendMessage Fade)) ] ++
-  [ ((myModMask, xK_b), (sendMessage ToggleStruts)) ]
+  -- implies that all windows are killed through Win-C
+  [ ((myModMask, xK_c), sendMessage Killed >> withFocused killWindow) ] ++
+  [ ((myModMask, xK_i), sendMessage Fade) ] ++
+  [ ((myModMask, xK_b), sendMessage ToggleStruts) ]
 
 myManageHook = composeAll
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
@@ -89,7 +90,7 @@ instance LayoutClass MyTall a where
       shrink n = max 1 . min n
 
       kill =
-        winNumA >>= (\n -> pure $ MyTall fade (Tall (shrink (n - 1) nmaster) delta frac))
+        winNumA >>= (\n -> pure $ MyTall fade (Tall (shrink (n-1) nmaster) delta frac))
 
       incmastern d =
         winNumA >>= (\n -> pure $ MyTall fade (Tall (shrink n (d + nmaster)) delta frac))
@@ -134,7 +135,11 @@ myConfig = def
   , terminal    = "alacritty"
   } `additionalKeys` myAdditionalKeys
 
+main :: IO ()
 main = do
+  -- ensure that only one instance is running
+  spawn "killall xmobar"
+  threadDelay 100000
   spawn "xmobar"
   xmonad (docks myConfig)
 

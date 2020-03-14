@@ -19,7 +19,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
   # Select internationalisation properties.
   i18n = {
     consoleFont = "Lat2-Terminus16";
@@ -37,9 +36,6 @@
     package = pkgs.pulseaudioFull;
   };
 
-  # Changing brightness
-  # hardware.acpilight.enable = true;
-
   # Event handler
   programs.xss-lock = {
     enable = true;
@@ -48,6 +44,7 @@
   };
 
   # Enable printer
+  # (Doesn't work)
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplipWithPlugin_3_16_11 ];
 
@@ -55,10 +52,10 @@
   systemd.services.upower.enable = true;
 
   # TLP daemon
+  # TODO: set cpufreq in tlp config
   # services.tlp.enable = true;
   powerManagement.cpuFreqGovernor = "powersave";
-  powerManagement.cpufreq.max = 2200000;
-
+  powerManagement.cpufreq.max = 2800000;
 
   # Auto upgrade
   system.autoUpgrade.enable = true;
