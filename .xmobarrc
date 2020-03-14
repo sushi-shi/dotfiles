@@ -1,8 +1,10 @@
 Config 
   { font =    "xft:Bitstream Vera Sans Mono:size=12:antialias=true"
-  
+  -- #FFBD4A - nice
+  -- #7092FF
+  -- #FF3A33 
   , allDesktops = True
-  , persistent  = True
+  , persistent  = False
   , template = "| %battery% | %bright% | %coretemp% | %alsa:default:Master% | %wlp2s0wi%%dynnetwork% }{| %date% | %kbd% |"
   , commands = 
   [ Run Kbd [("us", "US"), ("ru", "RU")]
@@ -10,11 +12,11 @@ Config
   , Run Battery 
     [ "--template", "Battery: <acstatus>"
     , "--Low", "35", "--High", "60"
-    , "--low", "#FF3A33", "--normal", "#7092FF", "--high", "#FFBD4A"
+    , "--low", "#FF3A33", "--high", "#7092FF", "--normal", "#FFBD4A"
     , "--" -- battery specific options
       , "-o", "<left>"
       , "-O", "<left>…"
-      , "-i", "100"
+      , "-i", "80"
     ] 10
   , Run CoreTemp 
     [ "--Low", "45", "--High", "70"
@@ -23,18 +25,18 @@ Config
     ] 10
   , Run DynNetwork 
     [ "--template", ": <tx>/<rx> |"
-    , "--normal", "#FFBD4A"
+    , "--normal", "#7092FF"
     , "--high", "#FFBD4A"
-    , "--Low", "-1", "--High", "100000"
+    , "--Low", "-1", "--High", "10000"
     ] 40
   , Run Wireless "wlp2s0" 
     [ "--template", "<essid>(<quality>)"
-    , "--normal", "#FFBD4A", "--low", "#7092FF"
+    , "--normal", "#7092FF", "--low", "#7092FF"
     , "--Low", "40", "--High", "110"
     ] 150
   , Run Brightness
     [ "--template", "Brightness: <percent>"
-    , "--Low", "40", "--High", "101"
+    , "--Low", "65", "--High", "101"
     , "--low", "#7092FF"
     , "--normal", "#FFBD4A"
     , "--" 
@@ -43,11 +45,12 @@ Config
   , Run Alsa "default" "Master"
     [ "--normal", "#FFBD4A"
     , "--low", "#7092FF"
-    , "--Low", "40", "--High", "750"
+    , "--high", "#FF3A33"
+    , "--Low", "70", "--High", "750"
     , "--template", "Volume: <volume> <status>"
     , "--"
-      , "--offc", "#7092FF"
-      , "--onc", "#FFBD4A"
+      , "--onc", "#7092FF"
+      , "--offc", "#FFBD4A"
     ]
   , Run Com "echo" ["I'll wait for as long as it takes!"] "" 0
   ]

@@ -50,10 +50,6 @@ vim_configurable.customize {
     " maps
 
     " bad habbits
-    nnoremap j <nop>
-    nnoremap k <nop>
-    nnoremap l <nop>
-    nnoremap h <nop>
     inoremap <up> <nop>
     inoremap <right> <nop>
     inoremap <left> <nop>
@@ -145,9 +141,11 @@ vim_configurable.customize {
     { names = [ 
         "fzfWrapper" 
         "fzf-vim" 
-        # "youcompleteme" 
+         
         "nerdtree" 
         "vim-airline"
+        "vim-airline-themes"
+        "solarized"
       ]; 
     }
   ];

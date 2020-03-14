@@ -40,6 +40,13 @@
   # Changing brightness
   # hardware.acpilight.enable = true;
 
+  # Event handler
+  programs.xss-lock = {
+    enable = true;
+    lockerCommand = 
+      "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
+  };
+
   # Enable printer
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplipWithPlugin_3_16_11 ];
