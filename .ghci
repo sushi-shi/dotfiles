@@ -1,0 +1,43 @@
+:set prompt "> "
+:set prompt-cont " | "
+
+:seti -XTypeApplications
+:seti -XScopedTypeVariables
+:seti -XRankNTypes
+:set -XNoStarIsType
+:seti -XLambdaCase
+:seti -XBangPatterns
+
+:seti -XDataKinds
+:seti -XKindSignatures
+:seti -XPolyKinds
+:seti -XPartialTypeSignatures
+
+:seti -XTypeFamilies
+:seti -XViewPatterns
+:seti -XTypeInType
+
+import Control.Monad
+import Control.Applicative
+
+import Control.Exception
+
+import Data.Foldable
+import Data.Traversable
+
+import Data.Bits
+import Data.Coerce
+
+import Data.Maybe
+import Data.List
+
+import Data.Void
+import Data.Function
+
+import Data.Monoid
+import Data.Semigroup
+
+import Data.Tuple
+import Data.Bifunctor
+
+:def hoogle \s -> return $ ":!hoogle --count=7 \"" ++ s  ++ "\""
