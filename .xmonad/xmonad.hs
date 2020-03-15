@@ -121,7 +121,7 @@ myLayoutHook = avoidStruts $ tiled ||| Full
     fade    = On
     nmaster = 1
     delta   = 3/100
-    ratio   = 1/2
+    ratio   = (1/2 + 3/100)
 
 myModMask = mod4Mask
 
