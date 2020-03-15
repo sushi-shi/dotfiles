@@ -22,7 +22,7 @@ do
       continue
     fi
   fi
-  sudo ln -fsi "`readlink -f \"$nix\"`" "/etc/nixos/${nix}" 
+  sudo ln -fsi "${PWD}/nixos/${nix}" "/etc/nixos/${nix}" 
 done
 
 echo "Rebuilding?"
