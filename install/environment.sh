@@ -15,3 +15,4 @@ do
   ln -fsi "`readlink -f \"$file\"`" "${HOME}/${file}" 
 done
 
+feh -bg-fill ${HOME}/.wallpaper.jpg

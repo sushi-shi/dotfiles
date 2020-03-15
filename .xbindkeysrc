@@ -70,6 +70,9 @@
 "cd Pictures/screenshots && shotgun"
   Print
 
+# Touchpad
+"xinput --disable 'SYNA3081:00 06CB:826F Touchpad'"
+  XF86Display
 
 ##################################
 # End of xbindkeys configuration #
