@@ -20,7 +20,7 @@
     "ne"="sudoedit /etc/nixos/*";
     "nl"="vim -R /etc/nixos/*";
 
-    "mnt"="udiskctl mount";
+    "mnt"="udisksctl mount";
     "jc"="journalctl";
     "sc"="systemctl";
 
@@ -39,6 +39,7 @@
     "lss"="du -sh * | sort -rh";
     "ccat"="highlight --out-format=ansi";
 
+    # query system-wide packages
     "nq"=''
       find /run/current-system/sw/bin/ -type l -exec readlink {} \; | sed -E 's|[^-]+-([^/]+)/.*|\1|g' | sort -u
     '';
