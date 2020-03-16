@@ -1,0 +1,14 @@
+#! /usr/bin/env perl
+
+my $blanked = 0;
+open (IN, "xscreensaver-command -watch |");
+while (<IN>) {
+    if (m/^(BLANK|LOCK)/) {
+        if (!$blanked) {
+            system "systemctl suspend";
+            $blanked = 1;
+        }
+    } elsif (m/^UNBLANK/) {
+        $blanked = 0;
+    }
+}

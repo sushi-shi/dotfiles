@@ -1,18 +1,20 @@
 #!/bin/sh
 
 if ! [ `basename "$PWD"` = dotfiles ]; then
-  echo "Should be run inside ../dotfiles"
+  echo "Should run inside ../dotfiles"
   exit 1
 fi
 
-for dir in $(find . \( -path ./nixos -o -path ./.git -o -path ./install \) -prune -o -type d -a -print)
+cd dots || exit 1
+
+for dir in $(find . -type d)
 do
   mkdir -p "${HOME}/${dir}" 2>/dev/null
 done
 
-for file in $(find . \( -path ./nixos -o -path ./.git -o -path ./install \) -prune -o -type f -a -print)
+for file in $(find . -type f)
 do
   ln -fsi "`readlink -f \"$file\"`" "${HOME}/${file}" 
 done
 
-feh -bg-fill ${HOME}/.wallpaper.jpg
+feh --bg-fill ${HOME}/.wallpaper.jpg
