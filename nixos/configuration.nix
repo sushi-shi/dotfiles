@@ -45,20 +45,11 @@
   # Event handler
   programs.xss-lock = {
     enable = true;
-    lockerCommand = 
-      "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
+
+    # also a hack but it works
+    lockerCommand = "$HOME/dotfiles/scripts/my-suspend";
   };
 
-  systemd.services.touchpad = {
-    description = "Reload drivers for touchpad";
-    wantedBy = [ "post-resume.target" ];
-    after = [ "post-resume.target" ];
-    path = [ pkgs.kmod ];
-    script = ''
-      modprobe -r i2c_hid
-      modprobe  i2c_hid
-    '';
-  };
 
   # Enable printer
   # (Doesn't work)

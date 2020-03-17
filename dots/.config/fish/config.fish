@@ -1,1 +1,1 @@
-set PATH $HOME/config/scripts $PATH
+set PATH $HOME/dotfiles/scripts $PATH

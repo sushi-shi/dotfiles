@@ -13,4 +13,6 @@
       "lp"              # printer
     ]; 
   };
+
+  security.sudo.wheelNeedsPassword = false;
 }

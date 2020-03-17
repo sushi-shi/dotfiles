@@ -6,14 +6,9 @@
     autorandr
     dmenu 
     notify-desktop
-    xbanish
-    xbindkeys
-    xcompmgr 
     xmobar
     xorg.xinit
     xorg.xmessage
-    xorg.xmodmap 
-    xscreensaver
   ];
 
   # Enable the X11 windowing system.
@@ -35,16 +30,6 @@
 
     };
 
-    # This one usually activates after Suspend. Don't.
-    # After suspend the touchpad still becomes jerky.
-    # And sometimes it doesn't activate at all. Sad.
-    config = ''
-      Section "InputClass"
-              Identifier "SynPS/2 Synaptics TouchPad"
-              MatchProduct "SynPS/2 Synaptics TouchPad"
-              Option "Ignore" "on"
-      EndSection
-    '';
     windowManager.default = "xmonad";
     displayManager = {
       lightdm.greeters.mini = {
@@ -56,16 +41,16 @@
         '';
       };
 
-      sessionCommands = pkgs.lib.mkAfter ''
-        xmodmap -e 'clear lock'
-        xmodmap -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
-        xmodmap -e 'keycode 66 = Escape NoSymbol Escape'
+      sessionCommands = with pkgs; lib.mkAfter ''
+        ${xorg.xmodmap} -e 'clear lock'
+        ${xorg.xmodmap} -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
+        ${xorg.xmodmap} -e 'keycode 66 = Escape NoSymbol Escape'
         ~/.fehbg &
-        xbanish &
-        xcompmgr &
+        ${xbanish} &
+        ${xcompmgr} &
         xbindkeys
 
-        xscreensaver -no-splash &
+        ${xscreensaver} -no-splash &
         # an ugly hack
         $HOME/dotfiles/scripts/xscreensaver-sleep &
       '';
@@ -79,6 +64,35 @@
     disableWhileTyping = true;
     tapping = true;
     accelProfile = "flat";
+  };
+
+  services.xserver = {
+    # This one usually activates after Suspend. Don't.
+    # After suspend the touchpad still becomes jerky.
+    # And sometimes it doesn't activate at all. Sad.
+    config = ''
+      Section "InputClass"
+              Identifier "SynPS/2 Synaptics TouchPad"
+              MatchProduct "SynPS/2 Synaptics TouchPad"
+              Option "Ignore" "on"
+      EndSection
+    '';
+  };
+
+  systemd.services.touchpad = {
+    description = "Reload drivers for a touchpad";
+    wantedBy = [ "post-resume.target" ];
+    after = [ "post-resume.target" ];
+    environment = {
+      DISPLAY=":0";
+      XAUTHORITY="/home/sheep/.Xauthority";
+    };
+    path = with pkgs; [ kmod xorg.xinput ];
+    script = ''
+      modprobe -r i2c_hid && modprobe  i2c_hid
+      sleep 1
+      xinput disable 'SYNA3081:00 06CB:826F Touchpad'
+    '';
   };
 
   # Changing brightness
