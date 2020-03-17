@@ -32,6 +32,7 @@
         xmonad-extras
         xmonad
       ];
+
     };
 
     # This one usually activates after Suspend. Don't.
@@ -45,19 +46,30 @@
       EndSection
     '';
     windowManager.default = "xmonad";
-    displayManager.sessionCommands = pkgs.lib.mkAfter ''
-      xmodmap -e 'clear lock'
-      xmodmap -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
-      xmodmap -e 'keycode 66 = Escape NoSymbol Escape'
-      ~/.fehbg &
-      xbanish &
-      xcompmgr &
-      xbindkeys
+    displayManager = {
+      lightdm.greeters.mini = {
+        enable = true;
+        user = "sheep";
+        extraConfig = ''
+          [greeter]
+          show-password-label = false
+        '';
+      };
 
-      xscreensaver -no-splash &
-      # an ugly hack
-      $HOME/dotfiles/scripts/xscreensaver-sleep &
-    '';
+      sessionCommands = pkgs.lib.mkAfter ''
+        xmodmap -e 'clear lock'
+        xmodmap -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
+        xmodmap -e 'keycode 66 = Escape NoSymbol Escape'
+        ~/.fehbg &
+        xbanish &
+        xcompmgr &
+        xbindkeys
+
+        xscreensaver -no-splash &
+        # an ugly hack
+        $HOME/dotfiles/scripts/xscreensaver-sleep &
+      '';
+    };
   };
 
   # Enable touchpad support.

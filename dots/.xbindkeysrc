@@ -71,7 +71,7 @@
   Print
 
 # Touchpad
-"xinput --disable 'SYNA3081:00 06CB:826F Touchpad'"
+"${HOME}/dotfiles/scripts/touchpad-toggle"
   XF86Display
 
 ##################################

@@ -49,6 +49,17 @@
       "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
   };
 
+  systemd.services.touchpad = {
+    description = "Reload drivers for touchpad";
+    wantedBy = [ "post-resume.target" ];
+    after = [ "post-resume.target" ];
+    path = [ pkgs.kmod ];
+    script = ''
+      modprobe -r i2c_hid
+      modprobe  i2c_hid
+    '';
+  };
+
   # Enable printer
   # (Doesn't work)
   services.printing.enable = true;
