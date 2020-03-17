@@ -6,9 +6,14 @@
     autorandr
     dmenu 
     notify-desktop
+    xbanish
+    xbindkeys
+    xcompmgr
     xmobar
     xorg.xinit
     xorg.xmessage
+    xorg.xmodmap
+    xscreensaver
   ];
 
   # Enable the X11 windowing system.
@@ -42,15 +47,15 @@
       };
 
       sessionCommands = with pkgs; lib.mkAfter ''
-        ${xorg.xmodmap} -e 'clear lock'
-        ${xorg.xmodmap} -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
-        ${xorg.xmodmap} -e 'keycode 66 = Escape NoSymbol Escape'
+        xmodmap -e 'clear lock'
+        xmodmap -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
+        xmodmap -e 'keycode 66 = Escape NoSymbol Escape'
         ~/.fehbg &
-        ${xbanish} &
-        ${xcompmgr} &
+        xbanish &
+        xcompmgr &
         xbindkeys
 
-        ${xscreensaver} -no-splash &
+        xscreensaver -no-splash &
         # an ugly hack
         $HOME/dotfiles/scripts/xscreensaver-sleep &
       '';

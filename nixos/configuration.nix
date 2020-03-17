@@ -45,14 +45,10 @@
   # Event handler
   programs.xss-lock = {
     enable = true;
-
-    # also a hack but it works
-    lockerCommand = "$HOME/dotfiles/scripts/my-suspend";
+    lockerCommand = "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
   };
 
-
   # Enable printer
-  # (Doesn't work)
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.hplipWithPlugin_3_16_11 ];
 
@@ -60,13 +56,8 @@
   systemd.services.upower.enable = true;
 
   # TLP daemon
-  # TODO: set cpufreq in tlp config
-  # services.tlp.enable = true;
   powerManagement.cpuFreqGovernor = "powersave";
   powerManagement.cpufreq.max = 2800000;
-
-  # Auto upgrade, seems like it isn't working! 
-  # system.autoUpgrade.enable = true;
 
   # Auto clean-up
   nix.optimise.automatic = true;
