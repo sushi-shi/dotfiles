@@ -7,6 +7,7 @@
     dmenu 
     notify-desktop
     xbanish
+    xclip
     xbindkeys
     xcompmgr
     xmobar
@@ -43,6 +44,8 @@
         extraConfig = ''
           [greeter]
           show-password-label = false
+          [greeter-theme]
+          background-image = "/home/sheep/greeting.jpg"
         '';
       };
 
@@ -73,8 +76,6 @@
 
   services.xserver = {
     # This one usually activates after Suspend. Don't.
-    # After suspend the touchpad still becomes jerky.
-    # And sometimes it doesn't activate at all. Sad.
     config = ''
       Section "InputClass"
               Identifier "SynPS/2 Synaptics TouchPad"
@@ -84,11 +85,13 @@
     '';
   };
 
+  # Jerky touchpad after reboot
   systemd.services.touchpad = {
     description = "Reload drivers for a touchpad";
     wantedBy = [ "post-resume.target" ];
     after = [ "post-resume.target" ];
     environment = {
+      # ugly
       DISPLAY=":0";
       XAUTHORITY="/home/sheep/.Xauthority";
     };

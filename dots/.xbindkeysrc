@@ -37,15 +37,6 @@
 #keystate_capslock = enable
 #keystate_scrolllock= enable
 
-# Examples of commands:
-
-"xbindkeys_show" 
-  control+shift + q
-
-# Start ranger
-"alacritty --command ranger"
-  Shift + Return 
-
 # Increase volume
 "pactl set-sink-volume @DEFAULT_SINK@ +1000"
    XF86AudioRaiseVolume

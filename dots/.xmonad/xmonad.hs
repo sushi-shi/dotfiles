@@ -39,7 +39,9 @@ myAdditionalKeys =
   -- implies that all windows are killed through Win-C
   [ ((myModMask, xK_c), sendMessage Killed >> withFocused killWindow) ] ++
   [ ((myModMask, xK_i), sendMessage Fade) ] ++
-  [ ((myModMask, xK_b), sendMessage ToggleStruts) ]
+  [ ((myModMask, xK_b), sendMessage ToggleStruts) ] ++
+  [ ((myModMask, xK_Return), spawn "alacritty --command 'ranger'") ] ++
+  [ ((myModMask, xK_u), windows swapMaster) ]
 
 myManageHook = composeAll
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat

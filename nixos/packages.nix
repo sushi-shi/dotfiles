@@ -16,6 +16,7 @@
 
     # media
     mpv zathura ranger sxiv feh jrnl anki
+    gimp imagemagick libreoffice 
 
     # vimHuge gives an access to a system clipboard
     (import ./vim.nix) vimHugeX
@@ -28,15 +29,15 @@
 
     # utils
     htop tree entr wget psmisc unrar
-    unzip fzf gimp imagemagick highlight
+    unzip fzf highlight lsof ripgrep lsscsi
     neofetch upower tlp linuxPackages.cpupower
+    binutils
     
     # shell/terminal
-    fish alacritty
+    fish alacritty tmux
 
     # etc
     wine
-    libreoffice 
   ];
 
   programs.fish = {

@@ -11,5 +11,7 @@ while (<IN>) {
         }
     } elsif (m/^UNBLANK/) {
         $blanked = 0;
+    } elsif (m/^LOCK/) {
+        system "pactl set-sink-mute \@DEFAULT_SINK\@ 1";
     }
 }

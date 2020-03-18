@@ -4,7 +4,7 @@
   environment.shellAliases = {
     # Commands for humans
     "l."="ls -ld .* --color=auto --group-directories-first";
-    "lo"="ls -Fhl --color=auto --group-directories-first";
+    "ll"="ls -hl --color=auto --group-directories-first";
     "ls"="ls --color=auto --group-directories-first";
     "free"="free -h";
     "du"="du -h";
@@ -13,17 +13,21 @@
     "mv"="mv -iv";
     "rm"="rm -v";
     "mkd"="mkdir -pv";
+    "info"="info --vi-keys";
+    "top"="htop";
+    "tail"="less +F";
 
     # Shorter!
     "ns"="nix-shell --command fish";
     "nr"="sudo nixos-rebuild switch";
     "ne"="sudoedit /etc/nixos/*";
-    "nl"="vim -R /etc/nixos/*";
+    "nE"="vim -R /etc/nixos/*";
 
     "mnt"="udisksctl mount";
     "jc"="journalctl";
     "sc"="systemctl";
 
+    "v"="vim";
     "sv"="sudoedit";
     "ka"="killall";
     "g"="git";
@@ -36,7 +40,8 @@
       youtube-dl --yes-playlist -x --audio-quality 0
     '';
 
-    "lss"="du -sh * | sort -rh";
+    # list sizes
+    "lss"="du -sh * | sort -rh | column -t";
 
     # query system-wide packages
     "nq"=''
