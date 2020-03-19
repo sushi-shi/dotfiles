@@ -1,0 +1,6 @@
+secrets.nix
+hardware-configuration.nix
+*.swp
+*.swo
+*.swn
+dotfiles/.ssh/id_rsa

@@ -17,6 +17,12 @@
     xscreensaver
   ];
 
+  # Event handler
+  programs.xss-lock = {
+    enable = true;
+    lockerCommand = "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "us,ru";
@@ -65,44 +71,4 @@
     };
   };
 
-  # Enable touchpad support.
-  services.xserver.libinput = {
-    enable = true;
-    naturalScrolling = true;
-    disableWhileTyping = true;
-    tapping = true;
-    accelProfile = "flat";
-  };
-
-  services.xserver = {
-    # This one usually activates after Suspend. Don't.
-    config = ''
-      Section "InputClass"
-              Identifier "SynPS/2 Synaptics TouchPad"
-              MatchProduct "SynPS/2 Synaptics TouchPad"
-              Option "Ignore" "on"
-      EndSection
-    '';
-  };
-
-  # Jerky touchpad after reboot
-  systemd.services.touchpad = {
-    description = "Reload drivers for a touchpad";
-    wantedBy = [ "post-resume.target" ];
-    after = [ "post-resume.target" ];
-    environment = {
-      # ugly
-      DISPLAY=":0";
-      XAUTHORITY="/home/sheep/.Xauthority";
-    };
-    path = with pkgs; [ kmod xorg.xinput ];
-    script = ''
-      modprobe -r i2c_hid && modprobe  i2c_hid
-      sleep 1
-      xinput disable 'SYNA3081:00 06CB:826F Touchpad'
-    '';
-  };
-
-  # Changing brightness
-  programs.light.enable = true;
 }

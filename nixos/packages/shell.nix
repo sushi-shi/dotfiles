@@ -1,6 +1,11 @@
 { pkgs, config, ...}:
 
 {
+  
+  programs.fish = {
+    enable = true;
+  };
+
   environment.shellAliases = {
     # Commands for humans
     "l."="ls -ld .* --color=auto --group-directories-first";

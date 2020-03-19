@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  imports = 
+    [ 
+      ./shell.nix
+    ];
+
   nixpkgs.config = {
     allowUnfree = true; 
   };
@@ -17,9 +22,6 @@
     # media
     mpv zathura ranger sxiv feh jrnl anki
     gimp imagemagick libreoffice 
-
-    # vimHuge gives an access to a system clipboard
-    (import ./vim.nix) vimHugeX
 
     # dev
     man-pages ctags 
@@ -38,11 +40,10 @@
 
     # etc
     wine
-  ];
 
-  programs.fish = {
-    enable = true;
-  };
+    vimHugeX # an access to a system clipboard
+    (import ./vim.nix)
+  ];
 
   # Set vim to be the default editor, twice.
   environment.variables.EDITOR="vim";
