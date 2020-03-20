@@ -10,6 +10,7 @@
     { # Commands for humans
       "l."="ls -ld .* --color=auto --group-directories-first";
       "ll"="ls -hl --color=auto --group-directories-first";
+      "la"="ls -hl --color=auto --group-directories-first --time=atime";
       "ls"="ls --color=auto --group-directories-first";
       "free"="free -h";
       "du"="du -h";
@@ -22,7 +23,6 @@
       "info"="info --vi-keys";
       "top"="htop";
       "tail"="less +F";
-      "vr"="vim -R";
 
       # Shorter!
       "ns"="nix-shell --command fish";
@@ -35,7 +35,8 @@
       "sc"="systemctl";
 
       "v"="vim";
-      "sv"="sudoedit";
+      "vr"="vim -R";
+      "vs"="sudoedit";
       "ka"="killall";
       "g"="git";
 

@@ -6,6 +6,8 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda";
 
+
+  programs.ssh.startAgent = true;
   services.openssh = {
     enable = true;
     listenAddresses =
