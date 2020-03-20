@@ -4,6 +4,7 @@
   imports = 
     [ 
       ./shell.nix
+      ./vim.nix
     ];
 
   nixpkgs.config = {
@@ -40,9 +41,6 @@
 
     # etc
     wine
-
-    vimHugeX # an access to a system clipboard
-    (import ./vim.nix)
   ];
 
   # Set vim to be the default editor, twice.

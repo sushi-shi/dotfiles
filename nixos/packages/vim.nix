@@ -1,11 +1,14 @@
-with import <nixpkgs> {};
+{ config, pkgs, ... }:
 
-vim_configurable.customize {
-  name = "vim";
+{
+  environment.systemPackages = with pkgs; [
+    vimHugeX # an access to a system clipboard
 
-  vimrcConfig.vam.knownPlugins = pkgs.vimPlugins;
-  vimrcConfig.vam.pluginDictionaries = [
-    { names = [
+    (vim_configurable.customize {
+      name = "vim";
+
+      vimrcConfig.pathogen.knownPlugins = vimPlugins;
+      vimrcConfig.pathogen.pluginNames = [
         # objects / motions
         "ReplaceWithRegister"
         "vim-commentary"
@@ -13,15 +16,9 @@ vim_configurable.customize {
         "vim-sort-motion"
         "vim-surround"
         "vim-textobj-user"
+        "vim-stylish-haskell"
+        "fzfWrapper" "fzf-vim" "nerdtree" 
       ];
-    }
-    { name = "vim-stylish-haskell"; ft_regex = "^hs\$"; }
-    { names = [ 
-        # etc.
-        "fzfWrapper" 
-        "fzf-vim" 
-        "nerdtree" 
-      ]; 
-    }
+    })
   ];
 }

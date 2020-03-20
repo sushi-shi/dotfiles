@@ -1,5 +1,5 @@
 " sane defaults 
-set history=5000
+set history=9000
 set nocp
 set number 		
 set relativenumber
@@ -97,7 +97,7 @@ inoremap <C-k> <C-w>k
 inoremap <C-l> <C-w>l
 
 " leaving vim
-nnoremap <leader>q :wqa<cr>
+nnoremap <leader>q :qa<cr>
 
 " save and put the cursor were it was before
 nnoremap <leader>w mq:wa<cr>`q

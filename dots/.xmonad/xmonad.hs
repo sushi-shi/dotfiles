@@ -46,7 +46,7 @@ myAdditionalKeys =
 myManageHook = composeAll
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
   , (className =? "TelegramDesktop" <&&> title =? "Media viewer") --> doFloat
-  , (className =? "Anki" <&&> title =? "Add") --> doFloat
+  , (className =? "Anki") --> doFloat
   , (className =? "mpv" <&&> className =? "gl") --> doFloat
   ]
 

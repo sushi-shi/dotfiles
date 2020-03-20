@@ -20,7 +20,7 @@
   # Event handler
   programs.xss-lock = {
     enable = true;
-    lockerCommand = "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
+    lockerCommand = "${pkgs.xscreensaver}/bin/xscreensaver-command -suspend";
   };
 
   # Enable the X11 windowing system.

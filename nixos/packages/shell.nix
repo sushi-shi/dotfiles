@@ -14,6 +14,7 @@
     "free"="free -h";
     "du"="du -h";
     "df"="df -h"; 
+    "di"="df -ih";
     "cp"="cp -iv";
     "mv"="mv -iv";
     "rm"="rm -v";
@@ -21,12 +22,13 @@
     "info"="info --vi-keys";
     "top"="htop";
     "tail"="less +F";
+    "vr"="vim -R";
 
     # Shorter!
     "ns"="nix-shell --command fish";
     "nr"="sudo nixos-rebuild switch";
-    "ne"="sudoedit /etc/nixos/*";
-    "nE"="vim -R /etc/nixos/*";
+    "ne"="sudoedit /etc/nixos/**";
+    "nE"="vim -R /etc/nixos/**";
 
     "mnt"="udisksctl mount";
     "jc"="journalctl";
