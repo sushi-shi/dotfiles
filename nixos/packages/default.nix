@@ -45,5 +45,4 @@
 
   # Set vim to be the default editor, twice.
   environment.variables.EDITOR = "vim";
-  programs.vim.defaultEditor = true;
 }
