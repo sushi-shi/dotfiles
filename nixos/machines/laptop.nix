@@ -11,10 +11,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Bluetooth
-  hardware.bluetooth = {
-    enable = false;
-    powerOnBoot = false;
-  };
+  hardware.bluetooth = 
+    { enable = false;
+      powerOnBoot = false;
+    };
 
   # TLP daemon
   powerManagement.cpuFreqGovernor = "powersave";
