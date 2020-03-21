@@ -5,7 +5,7 @@
   networking.hosts = {
     "0.0.0.0" = [ 
       "steamcommunity.com" "www.steamcommunity.com"  
-      # "twitch.tv" "www.twitch.tv"
+      "twitch.tv" "www.twitch.tv"
       "youtube.com" "www.youtube.com"
       "dobrochan.ru" "www.dobrochan.ru"  
       "dobrochan.com" "www.dobrochan.com"  
