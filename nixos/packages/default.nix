@@ -25,7 +25,7 @@
       gimp imagemagick libreoffice 
 
       # dev
-      man-pages ctags 
+      man-pages clang-manpages posix_man_pages ctags 
       cabal2nix git nix-prefetch-git
       ghc haskellPackages.hasktags
       mysql-workbench
@@ -43,6 +43,5 @@
       wine
     ];
 
-  # Set vim to be the default editor, twice.
   environment.variables.EDITOR = "vim";
 }

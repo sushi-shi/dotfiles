@@ -23,6 +23,6 @@
         };
       })
 
-      vimHugeX # an access to a system clipboard
+      # vimHugeX # an access to a system clipboard
     ];
 }

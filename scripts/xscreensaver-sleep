@@ -3,7 +3,7 @@
 my $blanked = 0;
 open (IN, "xscreensaver-command -watch |");
 while (<IN>) {
-    if (m/^(BLANK)/) {
+    if (m/^(LOCK|BLANK)/) {
         if (!$blanked) {
             $blanked = 1;
             system "pactl set-sink-mute \@DEFAULT_SINK\@ 1";
@@ -11,7 +11,5 @@ while (<IN>) {
         }
     } elsif (m/^UNBLANK/) {
         $blanked = 0;
-    } elsif (m/^LOCK/) {
-        system "pactl set-sink-mute \@DEFAULT_SINK\@ 1";
     }
 }

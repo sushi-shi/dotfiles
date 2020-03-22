@@ -7,6 +7,7 @@ import           XMonad.Hooks.DynamicLog      (dynamicLogWithPP, ppOutput,
                                                xmobar)
 import           XMonad.Hooks.FadeInactive    (fadeIn, fadeInactiveLogHook,
                                                fadeOutLogHook)
+import           XMonad.Hooks.InsertPosition
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Layout.Circle         (Circle (..))
 import           XMonad.Layout.LayoutModifier (ModifiedLayout)
@@ -133,7 +134,10 @@ myConfig = def
   , workspaces  = fmap snd myWorkspaces
   , layoutHook  = avoidStruts myLayoutHook
   , logHook     = myLogHook
-  , manageHook  = myManageHook <+> manageHook def
+  , manageHook
+    =   insertPosition Below Newer
+    <+> myManageHook <+> manageHook def
+  , focusFollowsMouse = False
   , terminal    = "alacritty"
   } `additionalKeys` myAdditionalKeys
 
