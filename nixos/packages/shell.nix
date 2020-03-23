@@ -21,7 +21,6 @@
       "rm"="rm -v";
       "mkd"="mkdir -pv";
       "info"="info --vi-keys";
-      "top"="htop";
       "tail"="less +F";
 
       # Shorter!
@@ -34,11 +33,15 @@
       "jc"="journalctl";
       "sc"="systemctl";
 
-      "v"="vim";
-      "vr"="vim -R";
+      "v"="vim -R";
+      "vm"="vim"; # vim mutable
       "vs"="sudoedit";
       "ka"="killall";
       "g"="git";
+
+      "j"="pop";   # j-pop, yes
+      "wd"="pwd";  # p is hard to type
+      "to"="htop"; # any problems with that?
 
       # Almost deserve to be scripts, but not quite
       "yd"=''
