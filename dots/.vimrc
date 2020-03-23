@@ -106,6 +106,7 @@ nnoremap <leader>w mq:wa<cr>`q
 iabbrev iq import qualified
 iabbrev hh <-
 iabbrev ll ->
+iabbrev kk =
 
 " copying and pasting
 noremap Y "+y

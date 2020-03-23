@@ -1,0 +1,7 @@
+lshw-02.18b
+mtr-0.93
+shotgun-v2.2.0
+sysstat-12.1.5
+telegram-desktop-1.9.14
+wpa_gui-2.9
+xss-lock-git-2018-05-31

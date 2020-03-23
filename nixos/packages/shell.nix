@@ -42,6 +42,7 @@
       "j"="pop";   # j-pop, yes
       "wd"="pwd";  # p is hard to type
       "to"="htop"; # any problems with that?
+      "ot"="opt";
 
       # Almost deserve to be scripts, but not quite
       "yd"=''
