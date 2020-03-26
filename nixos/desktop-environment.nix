@@ -13,12 +13,6 @@
       xscreensaver
     ];
 
-  # Event handler
-  programs.xss-lock = {
-    enable = true;
-    lockerCommand = "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
-  };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "us,ru";
@@ -68,10 +62,31 @@
         ${xcompmgr}/bin/xcompmgr &
         ${xbindkeys}/bin/xbindkeys
 
-        xscreensaver -no-splash &
+        ${xscreensaver}/bin/xscreensaver -no-splash &
         # an ugly hack
         $HOME/dotfiles/scripts/xscreensaver-sleep &
       '';
     };
   };
+
+  services.xserver.xautolock = {
+    enable = true;
+    killtime = 10;
+    killer = "${pkgs.systemd}/bin/systemctl suspend";
+  };
+
+  systemd.services.lock = {
+    description = "Lock the screen";
+    wantedBy = [ "sleep.target" ];
+    before = [ "sleep.target" ];
+    environment = {
+      DISPLAY=":0";
+      XAUTHORITY="/home/sheep/.Xauthority";
+    };
+    script = ''
+      ${pkgs.xscreensaver}/bin/xscreensaver-command -lock
+      ${pkgs.pulseaudio}/bin/pactl "set-sink-mute @DEFAULT_SINK@ 1"
+    '';
+  };
+
 }

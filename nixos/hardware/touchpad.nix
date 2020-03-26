@@ -26,7 +26,6 @@
     wantedBy = [ "post-resume.target" ];
     after = [ "post-resume.target" ];
     environment = {
-      # ugly
       DISPLAY=":0";
       XAUTHORITY="/home/sheep/.Xauthority";
     };
