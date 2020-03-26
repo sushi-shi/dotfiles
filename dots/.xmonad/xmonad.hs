@@ -122,7 +122,7 @@ myLogHook :: X ()
 myLogHook = withWindowSet $ \winSet -> do
   let curLayout = layout . workspace . current $ winSet
   case description curLayout of
-    "On" -> fadeInactiveLogHook 0.85
+    "On" -> fadeInactiveLogHook 0.9
     _    -> fadeInactiveLogHook 1
 
 myLayoutHook = avoidStruts $ tiled ||| Full
