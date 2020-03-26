@@ -5,7 +5,7 @@ Config
   -- #FF3A33 
   , allDesktops = True
   , persistent  = False
-  , template = "| %battery% | %bright% | %coretemp% | %alsa:default:Master% | %wlp2s0wi%%dynnetwork% }{| %date% | %kbd% |"
+  , template = "| <fc=#7092FF>%XMonadLog%</fc> | %battery% | %bright% | %coretemp% | %alsa:default:Master% | %wlp2s0wi%%dynnetwork% }{| %date% | %kbd% |"
   , commands = 
   [ Run Kbd [("us", "US"), ("ru", "RU")]
   , Run Date "<fc=#7092FF>%F</fc> (%a) <fc=#FFBD4A>%T</fc>" "date" 10
@@ -53,6 +53,7 @@ Config
       , "--offc", "#FFBD4A"
     ]
   , Run Com "echo" ["I'll wait for as long as it takes!"] "" 0
+  , Run XMonadLog
   ]
 
   }

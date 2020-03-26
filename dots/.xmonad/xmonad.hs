@@ -4,7 +4,7 @@
 
 import           XMonad
 import           XMonad.Hooks.DynamicLog      (dynamicLogWithPP, ppOutput,
-                                               xmobar)
+                                               xmobar, xmonadPropLog)
 import           XMonad.Hooks.FadeInactive    (fadeIn, fadeInactiveLogHook,
                                                fadeOutLogHook)
 import           XMonad.Hooks.InsertPosition
@@ -14,6 +14,7 @@ import           XMonad.Layout.LayoutModifier (ModifiedLayout)
 import           XMonad.Operations
 import           XMonad.StackSet              hiding (workspaces)
 import           XMonad.Util.EZConfig
+import           XMonad.Util.Run
 
 import           Control.Applicative          ((<|>))
 import           Control.Concurrent
@@ -118,12 +119,15 @@ instance LayoutClass MyTall a where
   -- A hack to get internal state out of an existential
   description (MyTall fade _) = show fade
 
-myLogHook :: X ()
-myLogHook = withWindowSet $ \winSet -> do
-  let curLayout = layout . workspace . current $ winSet
-  case description curLayout of
-    "On" -> fadeInactiveLogHook 0.9
-    _    -> fadeInactiveLogHook 1
+myLogHook = do
+  withWindowSet $ \winSet -> do
+    let ws = workspace . current $ winSet
+    case description (layout ws) of
+      "On" -> fadeInactiveLogHook 0.9
+      _    -> fadeInactiveLogHook 1
+    xmonadPropLog (tag ws)
+
+
 
 myLayoutHook = avoidStruts $ tiled ||| Full
   where
