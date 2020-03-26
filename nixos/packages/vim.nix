@@ -19,6 +19,8 @@
             vim-textobj-user
             vim-stylish-haskell
             fzfWrapper fzf-vim nerdtree 
+
+            vim-fugitive
           ];
         };
       })

@@ -12,7 +12,7 @@
       "dobrochan.net" "www.dobrochan.net"  
       "nowere.net" "www.nowere.net"  
       "linux.org.ru" "www.linux.org.ru"
-      "reddit.com" "www.reddit.com"
+      # "reddit.com" "www.reddit.com"
       "opennet.ru" "www.opennet.ru"
       "news.ycombinator.com" "news.www.ycombinator.com"
       "facebook.com" "www.facebook.com"

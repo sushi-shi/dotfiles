@@ -49,7 +49,7 @@
           [greeter-theme]
           border-width = 0
           font-size = 13
-          window-color = "#731B05"
+          window-color = "#000000"
         '';
       };
 
