@@ -20,9 +20,9 @@ import           Control.Applicative          ((<|>))
 import           Control.Concurrent
 import           Control.Monad                (when)
 import qualified Data.List                    as L
+import           Data.Maybe
 
--- Dev1 and Dev2 should be shown first.
-data MyWorkspaces = Dev1 | Dev2 | Media | Social
+data MyWorkspaces = Dev1 | Dev2 | Media | Chats
                   | Etc1 | Etc2 | W1    | W2
                   | W3   | W4   | W5    | W6
                   | W7   | W8   | W9
@@ -53,7 +53,7 @@ myManageHook = composeAll $
   , (className =? "Anki") --> doFloat
   , (className =? "mpv" <&&> className =? "gl") --> doFloat
   ] ++
-  [ "TelegramDesktop", "discord"] `sendTo` Social ++
+  [ "TelegramDesktop", "discord"] `sendTo` Chats ++
   [ "mpv", "tixati", "Tixati" ] `sendTo` Media
   where
     sendTo :: [String] -> MyWorkspaces -> [ManageHook]
@@ -125,9 +125,34 @@ myLogHook = do
     case description (layout ws) of
       "On" -> fadeInactiveLogHook 0.9
       _    -> fadeInactiveLogHook 1
-    xmonadPropLog (pad 6 (tag ws))
+    xmonadPropLog $ postPad (lChar (layout ws)) $ pad 6 (tag ws)
 
+lChar :: Layout Window -> Maybe Char
+lChar l
+  | description l == description Full = Just '*'
+  | otherwise = Nothing
 
+postPad :: Maybe Char -> String -> String
+postPad c pStr =
+  let
+    (p1, str') = L.span (== ' ') pStr
+    (str, p2)  = L.span (/= ' ') str'
+  in
+    p1 ++ str ++ case p2 of
+                    (p:ps) -> fromMaybe p c : ps
+                    []     -> ""
+
+pad :: Int -> String -> String
+pad n = go . L.take n
+  where
+    go str =
+      let
+        plen   = n - L.length str
+        side   = plen `div` 2
+        offset = plen `mod` 2
+        padding n = L.take n $ L.repeat ' '
+      in
+        padding side ++ str ++ padding (side + offset)
 
 myLayoutHook = avoidStruts $ tiled ||| Full
   where
@@ -159,25 +184,4 @@ main = do
   threadDelay 100000
   spawn "xmobar"
   xmonad (docks myConfig)
-
-
-padding :: Int -> String -> String
-padding n = pad . L.take n
-  where
-    pad str
-      = str ++ (L.take (n - L.length str) (repeat ' '))
-
-pad :: Int -> String -> String
-pad n = go . L.take n
-  where
-    go str =
-      let
-        side = (n - L.length str) `div` 2
-        offset = (n - L.length str) `mod` 2
-        padding n = L.take n $ L.repeat ' '
-      in
-        padding side ++ str ++ padding (side + offset)
-
-
-
 
