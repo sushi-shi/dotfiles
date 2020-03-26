@@ -63,8 +63,6 @@
         ${xbindkeys}/bin/xbindkeys
 
         ${xscreensaver}/bin/xscreensaver -no-splash &
-        # an ugly hack
-        $HOME/dotfiles/scripts/xscreensaver-sleep &
       '';
     };
   };
