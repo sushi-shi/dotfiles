@@ -69,8 +69,10 @@
 
   services.xserver.xautolock = {
     enable = true;
-    killtime = 10;
+    killtime = 11;
     killer = "${pkgs.systemd}/bin/systemctl suspend";
+    time = 10;
+    locker = "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
   };
 
   systemd.services.lock = {
