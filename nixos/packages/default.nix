@@ -18,7 +18,7 @@
       firefox tixati w3m youtube-dl
 
       # social
-      tdesktop 
+      tdesktop discord
 
       # media
       mpv zathura ranger sxiv feh jrnl anki
