@@ -1,6 +1,5 @@
 # dotfiles
 TODO:
-  * nix-env -q is not included.
   * nix-channel is not included too.
   * sleep better at night.
 

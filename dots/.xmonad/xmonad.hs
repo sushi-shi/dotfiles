@@ -45,6 +45,7 @@ myAdditionalKeys =
   [ ((myModMask, xK_Return), spawn "alacritty --command 'ranger'") ] ++
   [ ((myModMask, xK_u), windows swapMaster) ]
 
+myManageHook :: ManageHook
 myManageHook = composeAll $
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
   , (className =? "TelegramDesktop" <&&> title =? "Media viewer") --> doFloat
@@ -52,7 +53,7 @@ myManageHook = composeAll $
   , (className =? "mpv" <&&> className =? "gl") --> doFloat
   ] ++
   [ "TelegramDesktop", "discord"] `sendTo` Social ++
-  [ "mpv" ] `sendTo` Media
+  [ "mpv", "tixati", "Tixati" ] `sendTo` Media
   where
     sendTo :: [String] -> MyWorkspaces -> [ManageHook]
     sendTo names ws = map (\name -> className =? name --> doShift (show ws)) names
