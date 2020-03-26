@@ -21,13 +21,14 @@ import           Control.Monad                (when)
 import qualified Data.List                    as L
 
 -- Dev1 and Dev2 should be shown first.
-data Workspace = Dev1 | Dev2
-               | W6   | W7   | W8  | W9
-               | W10  | W11  | W12 | W13    | W14
+data MyWorkspaces = Dev1 | Dev2 | Media | Social
+                  | W1   | W2   | W3    | W4
+                  | W5   | W6   | W7    | W8
+                  | W14  | W15  | W16
   deriving (Show, Eq, Bounded, Ord, Enum)
 
 myWorkspaces = zip
-  ([xK_n, xK_m] ++ [xK_1..xK_9])
+  ([xK_n, xK_m, xK_semicolon, xK_quoteright, xK_bracketleft, xK_bracketright] ++ [xK_1..xK_9])
   (fmap show [Dev1 ..])
 
 myAdditionalKeys =
@@ -44,12 +45,17 @@ myAdditionalKeys =
   [ ((myModMask, xK_Return), spawn "alacritty --command 'ranger'") ] ++
   [ ((myModMask, xK_u), windows swapMaster) ]
 
-myManageHook = composeAll
+myManageHook = composeAll $
   [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
   , (className =? "TelegramDesktop" <&&> title =? "Media viewer") --> doFloat
   , (className =? "Anki") --> doFloat
   , (className =? "mpv" <&&> className =? "gl") --> doFloat
-  ]
+  ] ++
+  [ "TelegramDesktop", "discord"] `sendTo` Social ++
+  [ "mpv" ] `sendTo` Media
+  where
+    sendTo :: [String] -> MyWorkspaces -> [ManageHook]
+    sendTo names ws = map (\name -> className =? name --> doShift (show ws)) names
 
 -- Slightly configured Tall layout with
 -- an ability to switch fading on and off

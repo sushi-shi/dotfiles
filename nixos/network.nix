@@ -15,7 +15,6 @@
       "reddit.com" "www.reddit.com"
       "opennet.ru" "www.opennet.ru"
       "news.ycombinator.com" "news.www.ycombinator.com"
-
       "facebook.com" "www.facebook.com"
       "api.facebook.com" "fbcdn.net" "www.fbcdn.net"
     ];

@@ -1,7 +1,9 @@
+discord-0.0.10
+kubectl-1.15.8
 lshw-02.18b
 mtr-0.93
 shotgun-v2.2.0
-sysstat-12.1.5
-telegram-desktop-1.9.14
+sysstat-12.3.1
+telegram-desktop-1.9.21
 wpa_gui-2.9
 xss-lock-git-2018-05-31

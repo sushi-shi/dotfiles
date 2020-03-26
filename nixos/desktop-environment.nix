@@ -42,7 +42,7 @@
     displayManager = { 
       lightdm.background = let
         image = pkgs.runCommand "background-image" {} ''
-          cp ${./data/images/greetings.png} $out
+          cp ${./data/images/background.png} $out
         '';
       in "${image}";
 

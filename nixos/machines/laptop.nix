@@ -11,10 +11,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Bluetooth
-  hardware.bluetooth = 
-    { enable = false;
-      powerOnBoot = false;
-    };
+  hardware.bluetooth = { 
+    enable = false;
+    powerOnBoot = false;
+  };
 
   # TLP daemon
   powerManagement.cpuFreqGovernor = "powersave";
@@ -26,11 +26,9 @@
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
-  networking.wireless = 
-  let 
+  networking.wireless = let 
     secrets = import ../secrets.nix;
-  in
-  {
+  in {
     enable = true;
     networks = secrets.networks;
     extraConfig = ''

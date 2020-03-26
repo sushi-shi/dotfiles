@@ -1,6 +1,4 @@
 secrets.nix
 hardware-configuration.nix
-*.swp
-*.swo
-*.swn
+*.sw[pon]
 id_rsa
