@@ -23,9 +23,9 @@ import qualified Data.List                    as L
 
 -- Dev1 and Dev2 should be shown first.
 data MyWorkspaces = Dev1 | Dev2 | Media | Social
-                  | W1   | W2   | W3    | W4
-                  | W5   | W6   | W7    | W8
-                  | W14  | W15  | W16
+                  | Etc1 | Etc2 | W1    | W2
+                  | W3   | W4   | W5    | W6
+                  | W7   | W8   | W9
   deriving (Show, Eq, Bounded, Ord, Enum)
 
 myWorkspaces = zip
@@ -125,7 +125,7 @@ myLogHook = do
     case description (layout ws) of
       "On" -> fadeInactiveLogHook 0.9
       _    -> fadeInactiveLogHook 1
-    xmonadPropLog (tag ws)
+    xmonadPropLog (pad 6 (tag ws))
 
 
 
@@ -159,5 +159,25 @@ main = do
   threadDelay 100000
   spawn "xmobar"
   xmonad (docks myConfig)
+
+
+padding :: Int -> String -> String
+padding n = pad . L.take n
+  where
+    pad str
+      = str ++ (L.take (n - L.length str) (repeat ' '))
+
+pad :: Int -> String -> String
+pad n = go . L.take n
+  where
+    go str =
+      let
+        side = (n - L.length str) `div` 2
+        offset = (n - L.length str) `mod` 2
+        padding n = L.take n $ L.repeat ' '
+      in
+        padding side ++ str ++ padding (side + offset)
+
+
 
 
