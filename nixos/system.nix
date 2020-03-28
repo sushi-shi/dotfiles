@@ -29,4 +29,8 @@
   services.upower.enable = true;
   systemd.services.upower.enable = true;
 
+  # Auto clean-up
+  nix.optimise.automatic = true;
+  nix.gc.automatic = true;
+  nix.gc.options = "--delete-older-than 8d";
 }
