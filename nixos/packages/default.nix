@@ -11,6 +11,8 @@
     allowUnfree = true; 
   };
 
+  services.lorri.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; 
@@ -34,13 +36,14 @@
       htop tree entr wget psmisc unrar
       unzip fzf highlight lsof ripgrep lsscsi
       neofetch upower tlp linuxPackages.cpupower
-      binutils
+      binutils cloc
       
       # shell/terminal
       fish alacritty tmux
 
       # etc
       wine
+      pandoc
     ];
 
   environment.variables.EDITOR = "vim";
