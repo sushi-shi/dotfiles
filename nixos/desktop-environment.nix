@@ -11,16 +11,19 @@
       xorg.xinit
       xorg.xmessage
       xscreensaver
+      xdotool
     ];
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us,ru";
-  services.xserver.xkbOptions = "grp:alt_shift_toggle";
 
-  # XMonad
   services.xserver = { 
+    enable = true;
+    layout = "us,ru";
+    xkbOptions = "grp:alt_shift_toggle";
+
+    # Explicitly disable for xmonad to start
     desktopManager.xterm.enable = false;
+    windowManager.default = "xmonad";
 
     windowManager.xmonad = { 
       enable = true;
@@ -32,7 +35,6 @@
         ];
     };
 
-    windowManager.default = "xmonad";
     displayManager = { 
       lightdm.background = let
         image = pkgs.runCommand "background-image" {} ''
@@ -67,12 +69,23 @@
     };
   };
 
+  # Locking after 5 minutes of inactivity
+  # Locks only when no sound is playing
   services.xserver.xautolock = {
     enable = true;
-    killtime = 11;
-    killer = "${pkgs.systemd}/bin/systemctl suspend";
-    time = 10;
-    locker = "${pkgs.xscreensaver}/bin/xscreensaver-command -lock";
+    time = 5;
+    locker = with pkgs; let
+      suspend = writeShellScript "suspend-no-sound" ''
+        PATH="$PATH":${psmisc}/bin/:${coreutils}/bin:${systemd}/bin
+
+        sounds=$(fuser /dev/snd/* 2>&1 | wc -l | tr -d '\n')
+
+        # pulseaudio always has one file opened
+        if [ "$sounds" = "1" ]; then
+            systemctl suspend
+        fi
+      '';
+    in "${suspend}";
   };
 
   systemd.services.lock = {
@@ -85,7 +98,6 @@
     };
     script = ''
       ${pkgs.xscreensaver}/bin/xscreensaver-command -lock
-      ${pkgs.pulseaudio}/bin/pactl "set-sink-mute @DEFAULT_SINK@ 1"
     '';
   };
 
