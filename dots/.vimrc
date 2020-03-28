@@ -18,6 +18,9 @@ set tabstop=2
 " Switching between buffers
 set hidden
 
+" Smart joining
+set formatoptions+=j
+
 " Current position always on
 set ruler
 set backspace=2
@@ -97,7 +100,7 @@ inoremap <C-k> <C-w>k
 inoremap <C-l> <C-w>l
 
 " leaving vim
-nnoremap <leader>q :qa<cr>
+nnoremap <leader>q :q<cr>
 
 " save and put the cursor were it was before
 nnoremap <leader>w mq:wa<cr>`q
