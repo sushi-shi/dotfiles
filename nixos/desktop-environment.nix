@@ -74,9 +74,10 @@
   services.xserver.xautolock = {
     enable = true;
     time = 5;
-    locker = with pkgs; let
-      suspend = writeShellScript "suspend-no-sound" ''
-        PATH="$PATH":${psmisc}/bin/:${coreutils}/bin:${systemd}/bin
+    locker = let
+      path = with pkgs; lib.makeBinPath [ psmisc coreutils systemd ];
+      suspend = pkgs.writeShellScript "suspend-no-sound" ''
+        PATH="$PATH":${path}
 
         sounds=$(fuser /dev/snd/* 2>&1 | wc -l | tr -d '\n')
 
