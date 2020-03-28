@@ -27,8 +27,8 @@
     # Shorter!
     "ns"="nix-shell --command fish";
     "nr"="sudo nixos-rebuild switch";
-    "ne"="sudoedit /etc/nixos/**";
-    "nE"="vim -R /etc/nixos/**";
+    "ne"="sudo vim /etc/nixos"; # sudoedit doesn't open directories
+    "nE"="vim -R /etc/nixos";
 
     "mnt"="udisksctl mount";
     "jc"="journalctl";
