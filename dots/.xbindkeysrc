@@ -65,6 +65,14 @@
 "${HOME}/dotfiles/scripts/touchpad-toggle"
   XF86Display
 
+# Network
+"xdotool key XF86RFKill"
+  XF86HomePage
+
+# Touchpad on my second keyboard
+"xdotool key XF86Display"
+  XF86Mail
+
 ##################################
 # End of xbindkeys configuration #
 ##################################
