@@ -29,12 +29,4 @@
   services.upower.enable = true;
   systemd.services.upower.enable = true;
 
-  systemd.user.services.nix-env = {
-    description = "Re-save current environment";
-    script = ''
-      ${pkgs.nix}/bin/nix-env -q > $HOME/dotfiles/nix/neq.txt
-    '';
-    startAt = "03:15";
-  };
-
 }
