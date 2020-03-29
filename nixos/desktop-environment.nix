@@ -65,6 +65,7 @@
         ${xbindkeys}/bin/xbindkeys
 
         ${xscreensaver}/bin/xscreensaver -no-splash &
+        ${xorg.xinput}/bin/xinput disable 'SYNA3081:00 06CB:826F Touchpad'
       '';
     };
   };
@@ -98,6 +99,7 @@
       XAUTHORITY="/home/sheep/.Xauthority";
     };
     script = ''
+      ${pkgs.xkb-switch}/bin/xkb-switch -s us
       ${pkgs.xscreensaver}/bin/xscreensaver-command -lock
     '';
   };
