@@ -3,9 +3,11 @@
 	name = sheepfleece
 
 [alias]
+  a = add -v
+  r = restore
   vd = difftool --tool=vimdiff
   s = status -s
-  l = log --pretty=format:\"%Cgreen%h%Creset - %an, %ar%n %Cblue %s %n\" 
+  pl = log --pretty=format:\"%Cgreen%h%Creset - %an, %ar%n %Cblue %s %n\" 
   last = log -1 HEAD
 [core]
 	editor = vim
