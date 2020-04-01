@@ -123,7 +123,7 @@ myLogHook = do
   withWindowSet $ \winSet -> do
     let ws = workspace . current $ winSet
     case description (layout ws) of
-      "On" -> fadeInactiveLogHook 0.9
+      "On" -> fadeInactiveLogHook 0.85
       _    -> fadeInactiveLogHook 1
     xmonadPropLog $ postPad (lChar (layout ws)) $ pad 6 (tag ws)
 
