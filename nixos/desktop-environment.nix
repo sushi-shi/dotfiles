@@ -55,11 +55,15 @@
         '';
       };
 
-      sessionCommands = with pkgs; lib.mkAfter ''
+      sessionCommands = let
+        wallpaper = pkgs.runCommand "wallpaper" {} ''
+          cp ${./data/images/wallpaper.jpg} $out
+        '';
+      in with pkgs; lib.mkAfter ''
         ${xorg.xmodmap}/bin/xmodmap -e 'clear lock'
         ${xorg.xmodmap}/bin/xmodmap -e 'keycode 9 = Caps_Lock NoSymbol Caps_Lock'
         ${xorg.xmodmap}/bin/xmodmap -e 'keycode 66 = Escape NoSymbol Escape'
-        ~/.fehbg &
+        ${feh}/bin/feh --no-fehbg --bg-fill ${wallpaper}
         ${xbanish}/bin/xbanish &
         ${xcompmgr}/bin/xcompmgr &
         ${xbindkeys}/bin/xbindkeys
