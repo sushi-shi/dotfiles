@@ -5,6 +5,7 @@
 import           XMonad
 import           XMonad.Hooks.DynamicLog      (dynamicLogWithPP, ppOutput,
                                                xmobar, xmonadPropLog)
+import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.FadeInactive    (fadeIn, fadeInactiveLogHook,
                                                fadeOutLogHook)
 import           XMonad.Hooks.InsertPosition
@@ -39,12 +40,15 @@ myAdditionalKeys =
   [ ((myModMask .|. shiftMask, key), (windows $ shift ws))
   | (key, ws) <- myWorkspaces
   ] ++
-  -- implies that all windows are killed through Win-C
   [ ((myModMask, xK_c), sendMessage Killed >> withFocused killWindow) ] ++
   [ ((myModMask, xK_i), sendMessage Fade) ] ++
-  [ ((myModMask, xK_b), sendMessage ToggleStruts) ] ++
   [ ((myModMask, xK_Return), spawn "alacritty --command 'ranger'") ] ++
-  [ ((myModMask, xK_u), windows swapMaster) ]
+  [ ((myModMask, xK_u), windows swapMaster) ] ++
+
+  [ ((myModMask, xK_o), sendMessage ToggleStruts) ] ++
+  [ ((myModMask, xK_p), spawn "rofi -show run") ] ++
+  [ ((myModMask .|. shiftMask, xK_p), spawn "rofi -show window") ]
+
 
 myManageHook :: ManageHook
 myManageHook = composeAll $
@@ -183,5 +187,5 @@ main = do
   spawn "killall xmobar"
   threadDelay 100000
   spawn "xmobar"
-  xmonad (docks myConfig)
+  xmonad $ ewmh (docks myConfig)
 
