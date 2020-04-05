@@ -59,11 +59,12 @@ set nohlsearch
 set incsearch
 set ignorecase
 
-" G hurts my eyes without it
+noremap <space>k H
+noremap <space>j L
+
+nnoremap <space> @
 nnoremap G Gzz
 inoremap <c-z> <esc>zta
-
-" navigating current line 
 noremap L g_
 noremap H ^
 
