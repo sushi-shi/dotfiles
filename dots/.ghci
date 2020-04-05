@@ -1,10 +1,12 @@
 :set prompt "> "
-:set prompt-cont " | "
+:set prompt-cont "| "
+
+:set -XNoStarIsType
 
 :seti -XTypeApplications
+:seti -XAllowAmbigousTypes
 :seti -XScopedTypeVariables
 :seti -XRankNTypes
-:set -XNoStarIsType
 :seti -XLambdaCase
 :seti -XBangPatterns
 
