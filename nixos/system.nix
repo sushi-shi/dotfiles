@@ -33,4 +33,21 @@
   nix.optimise.automatic = true;
   nix.gc.automatic = true;
   nix.gc.options = "--delete-older-than 8d";
+
+  services.mysql.enable = true;
+  services.mysql.package = pkgs.mysql;
+  services.mysql.initialDatabases = [
+    { name = "music"; schema = "${./data/nfgh.sql}";}
+  ];
+  services.mysql.bind = "localhost";
+  services.mysql.ensureUsers = [
+    { 
+      name = "sheep"; 
+      ensurePermissions = {"*.*" = "ALL PRIVILEGES";} ; 
+    }
+  ];
+
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  users.extraGroups.vboxusers.members = [ "sheep" ];
 }
