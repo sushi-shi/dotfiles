@@ -1,18 +1,23 @@
 Config 
   { font =    "xft:Bitstream Vera Sans Mono:size=12:antialias=true"
-  -- #FFBD4A - nice
-  -- #7092FF
-  -- #FF3A33 
+  -- #B58900 - nice
+  -- #268BD2 - standart
+  -- #DC322F - bad
+
+  -- light theme
+  , bgColor = "#fdf6e3"
+  , fgColor = "#657b83" 
+
   , allDesktops = True
   , persistent  = False
-  , template = "| <fc=#7092FF>%XMonadLog%</fc> | %battery% | %bright% | %coretemp% | %alsa:default:Master% | %wlp2s0wi%%dynnetwork% }{| %date% | %kbd% |"
+  , template = "| <fc=#268BD2>%XMonadLog%</fc> | %battery% | %bright% | %coretemp% | %alsa:default:Master% | %wlp2s0wi%%dynnetwork% }{| %date% | %kbd% |"
   , commands = 
   [ Run Kbd [("us", "US"), ("ru", "RU")]
-  , Run Date "<fc=#7092FF>%F</fc> (%a) <fc=#FFBD4A>%T</fc>" "date" 10
+  , Run Date "<fc=#268BD2>%F</fc> (%a) <fc=#B58900>%T</fc>" "date" 10
   , Run Battery 
     [ "--template", "Battery: <acstatus>"
     , "--Low", "35", "--High", "60"
-    , "--low", "#FF3A33", "--high", "#7092FF", "--normal", "#FFBD4A"
+    , "--low", "#DC322F", "--high", "#268BD2", "--normal", "#B58900"
     , "--" -- battery specific options
       , "-o", "<left>"
       , "-O", "<left>…"
@@ -20,37 +25,37 @@ Config
     ] 10
   , Run CoreTemp 
     [ "--Low", "45", "--High", "70"
-    , "--low", "#7092FF", "--normal", "#FFBD4A", "--high", "#FF3A33"
+    , "--low", "#268BD2", "--normal", "#B58900", "--high", "#DC322F"
     , "--template", "Temp: <core0>"
     ] 10
   , Run DynNetwork 
     [ "--template", ": <tx>/<rx> |"
-    , "--normal", "#7092FF"
-    , "--high", "#FFBD4A"
+    , "--normal", "#268BD2"
+    , "--high", "#B58900"
     , "--Low", "-1", "--High", "10000"
     ] 40
   , Run Wireless "wlp2s0" 
     [ "--template", "<essid>(<quality>)"
-    , "--normal", "#7092FF", "--low", "#7092FF"
+    , "--normal", "#268BD2", "--low", "#268BD2"
     , "--Low", "40", "--High", "110"
     ] 40
   , Run Brightness
     [ "--template", "Brightness: <percent>"
     , "--Low", "65", "--High", "101"
-    , "--low", "#7092FF"
-    , "--normal", "#FFBD4A"
+    , "--low", "#268BD2"
+    , "--normal", "#B58900"
     , "--" 
     , "-D", "intel_backlight"
     ] 10
   , Run Alsa "default" "Master"
-    [ "--normal", "#FFBD4A"
-    , "--low", "#7092FF"
-    , "--high", "#FF3A33"
+    [ "--normal", "#B58900"
+    , "--low", "#268BD2"
+    , "--high", "#DC322F"
     , "--Low", "70", "--High", "750"
     , "--template", "Volume: <volume> <status>"
     , "--"
-      , "--onc", "#7092FF"
-      , "--offc", "#FFBD4A"
+      , "--onc", "#268BD2"
+      , "--offc", "#B58900"
     ]
   , Run Com "echo" ["I'll wait for as long as it takes!"] "" 0
   , Run XMonadLog
