@@ -30,6 +30,7 @@ set magic
 
 set scrolloff=5
 set nojoinspaces
+set background=light
 
 " try to keep each line short
 set textwidth=1160
