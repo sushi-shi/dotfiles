@@ -5,26 +5,25 @@ let
   sources = import ./nix/sources.nix;
 
   eagerPlugins = with vimPlugins; [
+    # Enhancing vim language
     ReplaceWithRegister # gr<object>
     fzf-vim fzfWrapper  # :Files, :Rg, :Colors
     vim-commentary      # gc<motion>
     vim-easy-align      # ga<object><char>
-    vim-eunuch          # :Delete, :Move, :Rename
-    vim-fugitive        # :Git
     vim-repeat          # .
     vim-sort-motion     # gs<motion>
     vim-surround        # ys<object><char>
     vim-matchup         # new motions: g%, [%, ]%, z%
+    vim-textobj-user    
 
-    # Status line
+    # # Status line
     vim-airline        # New status line
     vim-airline-themes # 'minimalist' theme
     vim-bufferline     # Show open buffers
 
-    # Language pack
+    # # Language pack
     vim-polyglot
 
-    vim-textobj-user    
 
     # Language server
     coc-nvim
@@ -46,12 +45,6 @@ let
     "vim-haskellFold"
   ];
 
-  cppPlugins = map mkPlugin [
-    "nvim-gdb"
-    "vim-lsp-cxx-highlight"
-    "syntastic"
-    "vim-clang-format"
-  ];
 
   mkPlugin = name: vimUtils.buildVimPlugin {
     pname = name;
@@ -69,26 +62,44 @@ let
   ];
 
   nivEagerPlugins = map mkPlugin [
-    "startuptime.vim"
-    "ranger.vim"
-    "bclose.vim"
+    "nvim-gdb"
+    "rust.vim"         # I use rust.vim mostly for rustfmt only TODO
+    "vim-ingo-library" # library to be used for other (which?) plugins
+    "bclose.vim"       # Closes buffer, leaves the window
+    "ale"
 
-    "indentLine"
+    "indentLine"       # Beautiful indentation
     "vim-smoothie"     # Smooth-scrolling for <C-d> <C-u>
-    "quick-scope"
+    "quick-scope"      # Help navigating with f/t
 
     "vim-move"         # <A-j> <A-k>
     "vim-signature"    # Signatures for navigation marks
     "vim-textobj-line" # <action>al
 
-    "firenvim"
+    "vim-indent-object" 
+    "vim-textobj-entire" # <action>ae, <action>ie
+    # Usecase: 
+    #     Paste some text into a new buffer (<C-w>n"*P) -- note that the initial empty line is left as the last line.
+    #     Edit the text (:%s/foo/bar/g etc)
+    #     Then copy the resulting text to another application ("*yie)
+
+    "vim-ripgrep"
+    
+    "sideways.vim"    # move arguments in functions
+    "splitjoin.vim"   # context aware splits and joins
+    "ranger.vim"
   ];
+
   nivUnusedPlugins = map mkPlugin [
+    "switch.vim" # Conflicts with sort for now
+    "vimspector"
+
+    "startuptime.vim"
+    "firenvim"
     "vimroom"          # <leader>V
     "vim-bookmarks"
     "vim-haskell"
     "vim-hoogle"  
-    "vim-ripgrep"
   ];
 
 
@@ -98,7 +109,7 @@ let
     configure = {
       customRC = "source ~/.config/nvim/init.vim";
       packages.myVimPackage = {
-        start = eagerPlugins ++ nivEagerPlugins ++ lazyPlugins ++ nivLazyPlugins ++ haskellPlugins ++ cppPlugins;
+        start = eagerPlugins ++ nivEagerPlugins ++ lazyPlugins ++ nivLazyPlugins ++ haskellPlugins;
         opt = [];
       };
     };

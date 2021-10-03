@@ -8,61 +8,61 @@
 {-# LANGUAGE TypeOperators         #-}
 {-# LANGUAGE ViewPatterns          #-}
 
-import           XMonad                       hiding (Screen, focus)
-import           XMonad.Actions.Minimize
-import           XMonad.Config.Kde
-import           XMonad.Config.Prime          (getClassHint, resClass)
-import           XMonad.Hooks.DynamicLog      (dynamicLogWithPP, ppOutput,
-                                               xmobar, xmonadPropLog)
-import           XMonad.Hooks.EwmhDesktops
-import           XMonad.Hooks.InsertPosition
-import           XMonad.Hooks.ManageDocks
-import           XMonad.Hooks.ManageHelpers
-import           XMonad.Hooks.RefocusLast     (refocusLastLogHook,
-                                               refocusLastWhen, swapWithLast,
-                                               toggleFocus)
-import           XMonad.Layout.LayoutModifier
-import           XMonad.Layout.NoBorders
-import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.Spacing
-import           XMonad.Layout.ThreeColumns
-import           XMonad.Util.EZConfig
-import           XMonad.Util.Run
-import           XMonad.Util.Types            (These (..))
-import           XMonad.Util.XUtils
-
+import           XMonad                        hiding (Screen, focus)
 import           XMonad.Core
-import           XMonad.Operations            hiding (focus)
-import           XMonad.StackSet              hiding (workspaces)
-
-import           Control.Applicative          ((<|>))
-import           Control.Arrow                ((&&&), (>>>))
-import           Control.Concurrent
-import           Control.Monad                (when)
-import           Data.Foldable
-import           Data.Function
-import           Data.Map                     (Map)
-import qualified Data.Map                     as Map
-import           Data.Maybe
-import           Data.Monoid                  (All)
-import           Text.Read                    (readMaybe)
+import           XMonad.Operations             hiding (focus)
+import           XMonad.StackSet               hiding (workspaces)
+import qualified XMonad.StackSet               as W
 
 import           Graphics.X11.Xinerama
 
+import           XMonad.Config.Kde
+import           XMonad.Config.Prime           (getClassHint, resClass)
+
+import           XMonad.Hooks.DynamicLog       (dynamicLogWithPP, ppOutput,
+                                                xmobar, xmonadPropLog)
+import           XMonad.Hooks.EwmhDesktops
+import           XMonad.Hooks.InsertPosition
+import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.ManageHelpers    (doRectFloat)
+import           XMonad.Hooks.RefocusLast      (refocusLastLogHook,
+                                                refocusLastWhen, swapWithLast,
+                                                toggleFocus)
+import           XMonad.Hooks.WindowSwallowing
+import           XMonad.Layout.LayoutModifier
+import           XMonad.Layout.ResizableTile   (MirrorResize (..))
+import           XMonad.Layout.ThreeColumns
+
+import           XMonad.Util.EZConfig
+import           XMonad.Util.Run
+import           XMonad.Util.Types             (These (..))
+import           XMonad.Util.XUtils
+import XMonad.Util.WindowProperties 
+
+import           Control.Applicative           ((<|>))
+import           System.Directory
+import           System.Random
+import           Control.Arrow                 ((&&&), (>>>))
+import           Control.Concurrent
+import           Control.Monad                 (when)
+import           Data.Foldable
+import           Data.Function
+import           Data.List                     ((\\))
+import qualified Data.List                     as List
+import           Data.Map                      (Map)
+import qualified Data.Map                      as Map
+import           Data.Maybe
+import           Data.Monoid                   (All)
 import           Data.Ratio
+import           GHC.List                      (lookup)
+import           Text.Read                     (readMaybe)
 
-import           Data.Coerce                  (coerce)
-import           Data.List                    ((\\))
-import qualified Data.List                    as L
-import qualified Data.List                    as List
-import           GHC.List                     (lookup)
-
-import           Debug.Trace
 
 data MyWorkspaces
-  = Dev1  | Dev2
-  | Books | Notes
-  | Media | Chats | Games
+  = Task  | Frame
+  | Web   | Rust
+  | Music | Work | Other
+  | W7 | W8 | W9 | W0
   deriving (Show, Eq, Bounded, Ord, Enum, Read)
 
 {-
@@ -70,11 +70,12 @@ data MyWorkspaces
  -}
 myWorkspaces :: [(KeySym, String)]
 myWorkspaces = (fmap show) <$>
-  [ (xK_n, Dev1), (xK_m, Dev2)
-  , (xK_bracketleft, Media), (xK_bracketright, Chats)
-  , (xK_backslash, Games)
+  [ (xK_n, Task), (xK_m, Frame)
+  , (xK_bracketleft, Music), (xK_bracketright, Work)
+  , (xK_backslash, Other)
 
-  , (xK_semicolon, Books), (xK_quoteright, Notes)
+  , (xK_semicolon, Web), (xK_quoteright, Rust)
+  , (xK_7, W7), (xK_8, W8), (xK_9, W9), (xK_0, W0)
   ]
 
 myAdditionalKeys :: [((KeyMask, KeySym), X ())]
@@ -85,19 +86,27 @@ myAdditionalKeys =
   [ ((myModMask .|. shiftMask, key), (windows $ shift ws))
   | (key, ws) <- myWorkspaces
   ] ++
+  -- Windows are numbered starting from 1
+  [ ((myModMask, key), windows (modify' (swapNumber n)))
+  | (key, n) <-  zip [xK_1 .. xK_6] [0 .. 5]
+  ] ++
 
-  [ ((myModMask, xK_c), killsWindow)
+  [ ((myModMask, xK_c), killsWindowAndProcess [])
+  , ((myModMask .|. shiftMask, xK_c), killsWindowAndProcess 
+      ["zoom", "telegram-desktop", "slack", "discord"]
+    )
+
   , ((myModMask, xK_z), sendMessage MirrorShrink)
   , ((myModMask, xK_a), sendMessage MirrorExpand)
   , ((myModMask .|. shiftMask, xK_z), sendMessage Reset)
 
   , ((myModMask, xK_Return), spawn "alacritty")
-
-
   , ((myModMask, xK_space), sendMessage (ToggleMsg 0))
 
   , ((myModMask, xK_i), windows focusMaster)
   , ((myModMask .|. shiftMask, xK_i), windows swapMaster)
+
+  , ((myModMask, xK_f), withFocused (sink >>> windows))
 
   , ((myModMask, xK_u     ), sendMessage NextLayout)
   , ((myModMask, xK_y     ), sendMessage (ToggleMsg 1))
@@ -105,6 +114,8 @@ myAdditionalKeys =
   , ((myModMask, xK_period), sendMessage (IncMasterN (-1)))
   , ((myModMask, xK_equal ), sendMessage (Magnify ( 0.1)))
   , ((myModMask, xK_minus ), sendMessage (Magnify (-0.1)))
+
+
   {-
     Hide xmobar. Doesn't work when there are no windows.
    -}
@@ -123,40 +134,76 @@ myAdditionalKeys =
   , ((myModMask, xK_p), spawn "rofi -m -4 -show run")
   , ((myModMask .|. shiftMask, xK_p), spawn "rofi -m -4 -show window")
   ]
+  -- ++
+  -- [((m .|. myModMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+  --     | (key, sc) <- zip [xK_e, xK_w, xK_r] [0..]
+  --     , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+  -- ]
 
-killsWindow :: X ()
-killsWindow = withFocused $ \f -> sendMessage (Killed f) >> withFocused killWindow
+
+swapNumber :: Int -> Stack a -> Stack a
+swapNumber n stack =
+  let
+    (ls, mrs) = splitAt n (integrate stack)
+  in case mrs of
+       (m:rs) -> Stack
+         { focus = m
+         , up    = reverse ls
+         , down  = rs
+         }
+       [] -> stack
+
+
+killsWindowAndProcess :: [String] ->  X ()
+killsWindowAndProcess names = withFocused $ \fkd -> do
+  dpy <- asks display
+  name <- fmap resName . io $ getClassHint dpy fkd
+
+  sendMessage (Killed fkd) >> withFocused killWindow
+
+  when (name `elem` names) $ do
+    let squash = concat :: Maybe [a] -> [a]
+    mprop <- fmap squash $ getProp32s "_NET_WM_PID" fkd 
+    case mprop of 
+      [] -> pure ()
+      (prop:_) -> 
+        spawn ("kill " <> show prop)
+
 
 myManageHook :: ManageHook
 myManageHook = composeAll $
-  [ (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
-  , (title =? "NoScript Blocked Objects — Mozilla Firefox") --> doFloat
+  [ (className =? "Firefox" <&&> resource =? "Dialog")            --> doFloat
+  , (title =? "NoScript Blocked Objects — Mozilla Firefox")       --> doFloat
+  , (title =? "Floating Lab") --> doFloat
+  , (title =? "float") --> doFloat
   , (className =? "TelegramDesktop" <&&> title =? "Media viewer") --> doFloat
-  , (className =? "Anki") --> doFloat
-  , (className =? "Steam" <&&> title =? "Friends List") --> doRectFloat (RationalRect (3 % 4) (1 % 2) (1 % 4) (1 % 2))
+  , (className =? "Anki")                                         --> doFloatTop
+  , (className =? "Steam" <&&> title =? "Friends List")           --> doRectFloat (RationalRect (3 % 4) (1 % 2) (1 % 4) (1 % 2))
 
   {-
     KDE4 floating windows.
    -}
-  , (title =? "Desktop - Plasma")   --> doFloat
-  , (title =? "plasma-desktop")     --> doFloat
-  , (title =? "win7")               --> doFloat
-  , (className =? "plasmashell")    --> doFloat
-  , (className =? "Plasma")         --> doFloat
-  , (className =? "krunner")        --> doFloat
-  , (className =? "kmix")           --> doFloat
-  , (className =? "klipper")        --> doFloat
-  , (className =? "Plasmoidviewer") --> doFloat
-  , (className =? "kwalletd5")      --> doFloat
-  ] ++
-
-  [ "Steam" ] `sendTo` Games ++
-  [ "TelegramDesktop", "discord" ] `sendTo` Chats ++
-  [ "tixati", "Tixati", "deluge", "Deluge" ] `sendTo` Media
+  , (title =? "Desktop - Plasma")   --> doFloatTop
+  , (title =? "plasma-desktop")     --> doFloatTop
+  , (title =? "win7")               --> doFloatTop
+  , (className =? "plasmashell")    --> doFloatTop
+  , (className =? "Plasma")         --> doFloatTop
+  , (className =? "krunner")        --> doFloatTop
+  , (className =? "kmix")           --> doFloatTop
+  , (className =? "klipper")        --> doFloatTop
+  , (className =? "Plasmoidviewer") --> doFloatTop
+  , (className =? "kwalletd5")      --> doFloatTop
+  ] 
+  -- ++
+  -- [ "Steam" ] `sendTo` Games ++
+  -- [ "TelegramDesktop", "discord" ] `sendTo` Chats ++
+  -- [ "tixati", "Tixati", "deluge", "Deluge" ] `sendTo` Media
   where
     sendTo :: [String] -> MyWorkspaces -> [ManageHook]
     sendTo names ws = map (\name -> className =? name --> doShift (show ws)) names
 
+doFloatTop :: ManageHook
+doFloatTop = doFloat
 
 
 type XScreen = Screen WorkspaceId (Layout Window) Window ScreenId ScreenDetail
@@ -172,7 +219,7 @@ myLogHook = withWindowSet $ \winSet ->
     csid = screen $ current winSet
 
     ss :: [XScreen]
-    ss = L.sortOn screen $ screens winSet
+    ss = List.sortOn screen $ screens winSet
 
     ws :: [WindowSpace]
     ws = workspace <$> ss
@@ -190,7 +237,7 @@ myLogHook = withWindowSet $ \winSet ->
     xmonadPropLog $ case ws of
       []  -> error "Impossible"
       [w] -> showName w
-      _   -> L.intercalate ", "
+      _   -> List.intercalate ", "
         $ zipWith each
           (showScreenId <$> ss)
           (showName <$> ws)
@@ -198,21 +245,17 @@ myLogHook = withWindowSet $ \winSet ->
           each n w = n ++ ":" ++ w
 
 xmobarName :: Int -> String -> String
-xmobarName n = go . L.take n
+xmobarName n = go . List.take n
   where
     go str =
       let
-        plen   = n - L.length str
+        plen   = n - List.length str
         side   = plen `div` 2
         offset = plen `mod` 2
-        padding n = L.take n $ L.repeat ' '
+        padding n = List.take n $ List.repeat ' '
       in
         padding side ++ str ++ padding (side + offset)
 
-updateAt :: Int -> (a -> a) -> [a] -> [a]
-updateAt 0 f (x:xs) = f x : xs
-updateAt n f (x:xs) = x : updateAt (n - 1) f xs
-updateAt _ _ []     = []
 
 type (<?>) = Choose
 infixr 3 <?>
@@ -220,19 +263,18 @@ infixr 3 <?>
 type (!*) = ModifiedLayout
 infixr 4 !*
 
-type MyLayout = (AvoidStruts !* (MyTiled <?> MyThreeCols)) Window
+type MyLayout = (AvoidStruts !* (MyThreeCols <?> MyTiled)) Window
 
 myLayout :: MyLayout
 myLayout
   = avoidStruts
-  $ tiled ||| threeCols
+  $ threeCols ||| tiled
 
-type MyTiled = (SmartMaster !* Magnifier !* Magnifier !* ResizeVertically !* Tall)
+type MyTiled = (SmartMaster !* Magnifier !* ResizeVertically !* Tall)
 tiled :: MyTiled Window
 tiled
   = smartMaster nmasters
   $ magnify nmasters FullScreen Off All
-  $ magnify nmasters (Ratio 1.2 1.2) Off All
   $ resizeVertically delta
   $ Tall nmasters delta ratio
 
@@ -249,7 +291,7 @@ threeCols
   = inverseMaster
   $ smartMaster nmasters
   $ magnify nmasters FullScreen Off All
-  $ magnify nmasters (Ratio 1.3 1.3) On NoMaster
+  $ magnify nmasters (Ratio 1.3 1.3) Off NoMaster
   $ resizeVertically delta
   $ ThreeColMid nmasters delta ratio
 
@@ -264,7 +306,10 @@ myModMask :: KeyMask
 myModMask = mod4Mask
 
 myHandleEventHook :: Event -> X All
-myHandleEventHook = refocusLastWhen (liftX . pure $ True)
+myHandleEventHook
+  =  refocusLastWhen (liftX . pure $ True)
+  <> swallowEventHook (className =? "Alacritty" <||> className =? "Termite") (return True)
+  <> swallowEventHook (className =? "hd_launcher.exe") (return True)
 
 -- myConfig :: XConfig DefaultLayout
 myConfig = kde4Config
@@ -273,10 +318,10 @@ myConfig = kde4Config
   , focusedBorderColor = "#e2a478"
   , normalBorderColor  = "#1c1c1c"
   , workspaces         = fmap snd myWorkspaces
-  , layoutHook         = myLayout -- avoidStruts threeCols
+  , layoutHook         = myLayout
   , logHook            = refocusLastLogHook <+> myLogHook
   , manageHook         =
-    myManageHook <+> manageHook kde4Config <+> insertPosition Below Newer
+    manageHook kde4Config <+> myManageHook -- <+> insertPosition Below Newer
   , handleEventHook    = myHandleEventHook
   , focusFollowsMouse  = False
   , terminal           = "alacritty"
@@ -293,8 +338,18 @@ main = do
     Spawn XMobar on each screen.
    -}
   dpy <- openDisplay ""
-  ns  <- L.length <$> getScreenInfo dpy
+  ns  <- List.length <$> getScreenInfo dpy
   for_ [0 .. ns - 1] $ \n -> spawn $ "xmobar --screen " <> show n
+
+
+  {-
+    feh. Set up background image. 
+   -}
+  backgroundPath <- pure "/home/sheep/Pictures/Background/"
+  images <- map (backgroundPath <>) . List.filter (\i -> i /= ".." || i /= ".") <$> getDirectoryContents backgroundPath
+  image <- randomRIO (0, List.length images - 1)
+
+  spawn $ "feh --bg-fill " <> images !! image
 
   {-
     Start XMonad.
@@ -399,9 +454,11 @@ instance LayoutModifier Magnifier Window where
         (Off, _)       -> "Magnifier (off)"
 
 handlePureMess :: Magnifier a -> SomeMessage -> Maybe (Magnifier a)
+handlePureMess mag m
+  | Just (IncMasterN d) <- fromMessage m = Just mag { mg_nmaster = max 0 (mg_nmaster mag + d) }
+
 handlePureMess (id &&& mg_toggle &&& mg_zoom -> (mag, (On, Ratio dx dy))) m
   | Just (Magnify d) <- fromMessage m = Just mag { mg_zoom = Ratio (d + dx) (d + dy) }
-  | Just (IncMasterN d) <- fromMessage m = Just mag { mg_nmaster = max 0 (mg_nmaster mag + d) }
 
 handlePureMess (id &&& mg_toggle -> (mag, On)) m
   | Just ToggleOff   <- fromMessage m = Just mag { mg_toggle = Off }
@@ -488,13 +545,18 @@ instance LayoutModifier SmartMaster Window where
 incMaster :: Int -> Int -> X Int
 incMaster nmaster d = withWindowSet $ \winset -> pure $ applyBoundaries (length (getWindows winset)) (d + nmaster)
 
+isFloating :: Window -> WindowSet -> Bool
+isFloating w = Map.member w . floating
+
 killedMaster :: Int -> Window -> X (Maybe Int)
 killedMaster nmaster win = withWindowSet $ \winset -> pure $
     let
       -- Decrease by one if deleting master window.
       -- When I have more than one master window and want to delete one of them
       -- it is very rarely that I want to keep the same number of master windows
-      newMasterNum = max 1 $ nmaster - fromEnum (isMaster nmaster win (getWindows winset))
+      newMasterNum 
+        | isFloating win winset = nmaster 
+        | otherwise             = max 1 $ nmaster - fromEnum (isMaster nmaster win (getWindows winset))
     in
       if newMasterNum == nmaster
         then Nothing
@@ -512,6 +574,7 @@ isMaster nmaster w ws = fromMaybe False $ fmap (< nmaster) $ lookup' w ws
 lookup' :: Eq a => a -> [a] -> Maybe Int
 lookup' x xs = lookup x $ zip xs [0..]
 
+----------------------------------------------------------------------------------------------
 
 data InverseMaster a = InverseMaster
   deriving (Read, Show)
@@ -531,6 +594,7 @@ instance Message Killed
 
 ----------------------------------------------------------------------------------------------
 
+-- TODO: It leaks a bit with windows not being deleted from the map.
 data ResizeVertically a = ResizeVertically
   { rv_delta :: Rational
   , rv_fracs :: Map Window Rational
@@ -578,6 +642,7 @@ type WR = (Window, Rectangle)
 
 type List a = [a]
 
+-- TODO: this might screw up the order of floating windows
 separateCols
   :: List (Window, Rectangle)
   -> List (List (Window, Rectangle))
@@ -638,3 +703,20 @@ data Reset = Reset
     deriving (Typeable)
 instance Message Reset
 
+
+----------------------------------------------------------------------------------------------
+data NumberWindows a = NumberWindows
+  { nw_working :: Bool
+  } deriving (Read, Show)
+
+numberWindows :: Bool -> l a -> ModifiedLayout NumberWindows l a
+numberWindows = ModifiedLayout . NumberWindows
+
+instance LayoutModifier NumberWindows Window where
+  pureMess l msg
+    | Just NW_Toggle <- fromMessage msg = Just l { nw_working = not $ nw_working l }
+
+
+data NW_Toggle = NW_Toggle
+    deriving (Typeable)
+instance Message NW_Toggle

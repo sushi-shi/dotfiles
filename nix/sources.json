@@ -1,4 +1,16 @@
 {
+    "ale": {
+        "branch": "master",
+        "description": "Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support",
+        "homepage": "",
+        "owner": "dense-analysis",
+        "repo": "ale",
+        "rev": "c9c89a1853c01f3451edd7105814d123023ddbd8",
+        "sha256": "1szaw6jar86376wflzy644zm8l1ah8h5bvqkl7sxd8wijkxn1gph",
+        "type": "tarball",
+        "url": "https://github.com/dense-analysis/ale/archive/c9c89a1853c01f3451edd7105814d123023ddbd8.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "bclose.vim": {
         "branch": "master",
         "description": "The BClose Vim plugin for deleting a buffer without closing the window",
@@ -131,6 +143,42 @@
         "url": "https://github.com/francoiscabrol/ranger.vim/archive/91e82debdf566dfaf47df3aef0a5fd823cedf41c.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "rust.vim": {
+        "branch": "master",
+        "description": "Vim configuration for Rust.",
+        "homepage": null,
+        "owner": "rust-lang",
+        "repo": "rust.vim",
+        "rev": "c06a17151c69b9d61e60a28274932a28fd37c453",
+        "sha256": "11ms2has79w2jazvca2mysdbscs1412xmcql0mxc72wrpnws321h",
+        "type": "tarball",
+        "url": "https://github.com/rust-lang/rust.vim/archive/c06a17151c69b9d61e60a28274932a28fd37c453.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "sideways.vim": {
+        "branch": "main",
+        "description": "A Vim plugin to move function arguments (and other delimited-by-something items) left and right.",
+        "homepage": "http://www.vim.org/scripts/script.php?script_id=4171",
+        "owner": "AndrewRadev",
+        "repo": "sideways.vim",
+        "rev": "960afef88aef374d3525e1536bdd505727b42d67",
+        "sha256": "0w836fw58123q4f8lfr9pg1n2fqiw8lbc81c6zb1cqb7585pan9g",
+        "type": "tarball",
+        "url": "https://github.com/AndrewRadev/sideways.vim/archive/960afef88aef374d3525e1536bdd505727b42d67.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "splitjoin.vim": {
+        "branch": "main",
+        "description": "Switch between single-line and multiline forms of code",
+        "homepage": "http://www.vim.org/scripts/script.php?script_id=3613",
+        "owner": "AndrewRadev",
+        "repo": "splitjoin.vim",
+        "rev": "a27352edee29fad650f129a41908bc62efc82978",
+        "sha256": "1wgzcbzrhgb0cssx0y98qs59jyd0cgvp0b7b735s3h95siaa0amc",
+        "type": "tarball",
+        "url": "https://github.com/AndrewRadev/splitjoin.vim/archive/a27352edee29fad650f129a41908bc62efc82978.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "startuptime.vim": {
         "branch": "master",
         "description": "Breakdown Vim's --startuptime output",
@@ -141,6 +189,18 @@
         "sha256": "0iikp8098mcjb6z54jyn0f58lb02pd2zzdsy4q6qls4m9j4j3fqh",
         "type": "tarball",
         "url": "https://github.com/tweekmonster/startuptime.vim/archive/dfa57f522d6f61793fe5fea65bca7484751b8ca2.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "switch.vim": {
+        "branch": "master",
+        "description": "A simple Vim plugin to switch segments of text with predefined replacements",
+        "homepage": "http://www.vim.org/scripts/script.php?script_id=4172",
+        "owner": "AndrewRadev",
+        "repo": "switch.vim",
+        "rev": "d9a8cf6171a4ac262c1cf4795984091b61989785",
+        "sha256": "0pd52cn1p73nwazacv3vlc53dyyknih52yyc76z7pwssp8vjynva",
+        "type": "tarball",
+        "url": "https://github.com/AndrewRadev/switch.vim/archive/d9a8cf6171a4ac262c1cf4795984091b61989785.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "syntastic": {
@@ -239,6 +299,30 @@
         "url": "https://github.com/Twinside/vim-hoogle/archive/871d104c92e33cb238506f2805f1652561978cc8.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "vim-indent-object": {
+        "branch": "master",
+        "description": "Vim plugin that defines a new text object representing lines of code at the same indent level. Useful for python/vim scripts, etc.",
+        "homepage": "http://www.vim.org/scripts/script.php?script_id=3037",
+        "owner": "michaeljsmith",
+        "repo": "vim-indent-object",
+        "rev": "5c5b24c959478929b54a9e831a8e2e651a465965",
+        "sha256": "1kmwnz0jxjkvfzy06r7r73pcxfcyjp8p8m2d6qrhjfvzidgfhw19",
+        "type": "tarball",
+        "url": "https://github.com/michaeljsmith/vim-indent-object/archive/5c5b24c959478929b54a9e831a8e2e651a465965.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "vim-ingo-library": {
+        "branch": "master",
+        "description": "Vimscript library of common functions",
+        "homepage": null,
+        "owner": "inkarkat",
+        "repo": "vim-ingo-library",
+        "rev": "51703e0f5fc73836b8e5be222f6eebde1891a664",
+        "sha256": "0yk8dhjpxywh4vrxwvg3vjxdabl4i3qbd1qgk9bmb111bn7lwjnh",
+        "type": "tarball",
+        "url": "https://github.com/inkarkat/vim-ingo-library/archive/51703e0f5fc73836b8e5be222f6eebde1891a664.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "vim-lsp-cxx-highlight": {
         "branch": "master",
         "description": "Vim plugin for C/C++/ObjC semantic highlighting using cquery, ccls, or clangd",
@@ -299,6 +383,18 @@
         "url": "https://github.com/psliwka/vim-smoothie/archive/1f5ee84b789384a273b3e27b6a5a7e2f54dbc30e.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "vim-textobj-entire": {
+        "branch": "master",
+        "description": "Vim plugin: Text objects for entire buffer",
+        "homepage": "http://www.vim.org/scripts/script.php?script_id=2610",
+        "owner": "kana",
+        "repo": "vim-textobj-entire",
+        "rev": "64a856c9dff3425ed8a863b9ec0a21dbaee6fb3a",
+        "sha256": "0kv0s85wbcxn9hrvml4hdzbpf49b1wwr3nk6gsz3p5rvfs6fbvmm",
+        "type": "tarball",
+        "url": "https://github.com/kana/vim-textobj-entire/archive/64a856c9dff3425ed8a863b9ec0a21dbaee6fb3a.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "vim-textobj-line": {
         "branch": "master",
         "description": "Vim plugin: Text objects for the current line",
@@ -321,6 +417,18 @@
         "sha256": "083ppipc7qkzh9bgnyaxd2m2lrji5mrhd69ixlnbxbiwmav9r6bx",
         "type": "tarball",
         "url": "https://github.com/mikewest/vimroom/archive/b9d1fa7d460dac878cbc8c945a45439d92ce0cb2.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "vimspector": {
+        "branch": "master",
+        "description": "vimspector - A multi-language debugging system for Vim",
+        "homepage": "http://puremourning.github.io/vimspector-web",
+        "owner": "puremourning",
+        "repo": "vimspector",
+        "rev": "726a06e0d043e5897ade0624da2ecbbceab53484",
+        "sha256": "1swc8bzq5fifjkqxp6svzbipx0akmcj9ars7bxcgagzdndpz117s",
+        "type": "tarball",
+        "url": "https://github.com/puremourning/vimspector/archive/726a06e0d043e5897ade0624da2ecbbceab53484.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

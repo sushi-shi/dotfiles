@@ -6,9 +6,9 @@
 --geo-bypass
 
 # Subtitle Options 
+--sub-lang be,en
 --write-auto-sub
 --embed-subs
---sub-lang be,en
 
 --yes-playlist
 --cookies ~/.config/youtube-dl/cookies.txt

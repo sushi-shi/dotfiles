@@ -5,10 +5,13 @@
 set background=dark
 colorscheme gruvbox
 
+" Default settings for using CoC
 source ~/.config/nvim/coc.vim
 
-" Sane defaults.
+""" SANE DEFAULTS
 set encoding=utf-8
+syntax on
+set nowrap
 set noemoji
 set history=9000
 set number relativenumber
@@ -24,23 +27,79 @@ set linebreak
 set foldlevel=2
 
 
+""" REMAPS
+
+"" MOVEMENT 
 " Move intuitively through wrapped lines
 nnoremap j gj
 nnoremap k gk
+
+" Moves for editing from the beginning and until the end of the line
+noremap L g_
+noremap H ^
 
 " Escaping from the terminal mode.
 " Not the best solution for using Ranger.
 tnoremap <Esc> <C-\><C-n>
 
+" Be always at the center when navigating
+nnoremap zo za
+nnoremap n nzz
+nnoremap G Gzz
+
+" Navigating open buffers
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+nnoremap <C-p> <C-w>p
+
+" Opening buffers
+nnoremap <space><space> :vert sb<CR>
+
+
+"" SEARCH
+
+" Fuzzy-navigation
+nnoremap sg :GFiles<CR>
+nnoremap sf :Files<CR>
+nnoremap sb :Buffers<CR>
+nnoremap sc :Colors<CR>
+nnoremap sh :History:<CR>
+nnoremap sw yaw:Rg <C-R>"<CR>
+
+
+"" LEADER
+
+" Not remapped marks are still usable. 
+let mapleader = "m"
+
+
+"" OTHER REMAPS
+
+" re-undo
+nnoremap U <C-r> 
+nnoremap Q :q<CR>
+
+" Copying and pasting
+noremap <space> "+
+
+""" SETTING
+
+" Do not highlight search results, 
+" because it is annoying for navigation.
+set nohlsearch
+set incsearch
+set ignorecase
+set nowrapscan
+
 
 " Refresh syntax highlighting on each keystroke.
 " Haskell andd CPP syntax breaks otherwise.
-syntax on
-set noshowmode
-au Syntax * syntax sync fromstart
+" set noshowmode
+" au Syntax * syntax sync fromstart
 
-" Orthography highlighting
-noremap <leader>o :setlocal spell! spelllang=en_us<CR>
+
 
 " 1 tab == 2 spaces
 " Do not use tabs, indent nicely.
@@ -52,83 +111,13 @@ set smarttab
 set softtabstop=0
 set tabstop=2
 
-" Do not highlight search results, 
-" because it is annoying for navigation.
-set nohlsearch
-set incsearch
-set ignorecase
-set nowrapscan
 
 
-nnoremap zo za
-nnoremap n nzz
-nnoremap G Gzz
-
-noremap L g_
-noremap H ^
-
-""" Tabs
-
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
-
-""" Buffers
-
-" Navigating open buffers
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-nnoremap <C-p> <C-w>p
-
-" Closing buffers
-nnoremap <C-Q> :bdelete<CR>
-
-" Opening buffers
-nnoremap <space><space> :vert sb<CR>
-
-""" Leader maps
-
-" Not remapped marks are still usable. 
-let mapleader = "m"
-
-" Copying and pasting
-noremap <space> "+
-
-" Fuzzy-navigation
-nnoremap sg :GFiles<CR>
-nnoremap sf :Files<CR>
-nnoremap sb :Buffers<CR>
-nnoremap sc :Colors<CR>
-nnoremap sh :History:<CR>
-nnoremap sw yaw:Rg <C-R>"<CR>
 
 
-" re-undo
-nnoremap U <C-r> 
-nnoremap Q :q<CR>
-
-let rumap = 'йцукенгшщзхъфывапролджэёячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ'
-let enmap = 'qwertyuiop[]asdfghjkl;''\zxcvbnm,.QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>' 
-let mapLen = strchars(rumap)
-let i = 0
-while i < mapLen
-    let ruChar = matchstr(rumap, ".", byteidx(rumap, i))
-    let enChar = enmap[i]
-    execute 'map '.ruChar.' '.enChar
-    execute 'cmap '.ruChar.' '.enChar
-    let i += 1
-endwhile
 
 
-""" Plugins 
+""" PLUGINS 
 
 " EasyAlign
 nmap ga <Plug>(EasyAlign)
@@ -140,8 +129,9 @@ let g:bufferline_echo = 0
 let g:airline_theme='minimalist'
 
 " IndentLine
-let g:indentLine_leadingSpaceChar = '·'
-let g:indentLine_leadingSpaceEnabled = 1
+" Disable for now
+" let g:indentLine_leadingSpaceChar = '·'
+" let g:indentLine_leadingSpaceEnabled = 1
 
 " Colors for solarized theme
 let g:solarized_termcolors=256
@@ -159,3 +149,22 @@ highlight QuickScopeSecondary ctermfg=1 cterm=underline
 let loaded_netrwPlugin = 1
 let g:ranger_replace_netrw = 1
 
+
+" Moving lines
+let g:move_map_keys = 0
+nnoremap <A-h> :SidewaysLeft<cr>
+nnoremap <A-l> :SidewaysRight<cr>
+
+" Running rustfmt on save 
+" TODO RUST SPECIFIC MOVE 
+let g:rustfmt_autosave = 1
+
+nnoremap <leader>db :GdbBreakpointToggle<CR>
+nnoremap <leader>du :GdbUntil<CR>
+nnoremap <leader>dc :GdbContinue<CR>
+nnoremap <leader>dn :GdbNext<CR>
+nnoremap <leader>ds :GdbStep<CR>
+nnoremap <leader>df :GdbFinish<CR>
+
+nnoremap <leader>dp :GdbFrameUp<CR>
+nnoremap <leader>dw :GdbFrameDown<CR>

@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+die() {
+  echo $1
+  exit 1
+}
+
+cleanup() {
+  # Unload all modules
+  pactl unload-module module-loopback
+  pactl unload-module module-null-sink
+}
+trap cleanup EXIT
+
+
+# Get an application's sink input to multiply it
+APP_PID="$(xprop _NET_WM_PID | sed -E 's|_NET_WM_PID\(CARDINAL\) = ([[:digit:]]+)|\1|g')"
+APP_NAME=$(readlink "/proc/${APP_PID}/exe" | sed 's|.*\/||g')
+
+if [ "${APP_NAME}" == "alacritty" ]; then
+  # Assume ncmpcpp from terminal
+  APP_SINK_INPUT=$(
+    pacmd list-sink-inputs |
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?application\.name = "([^\r]+)"\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' | 
+    rg mpd | perl -pe 's|.*:([[:digit:]]+)|\1|g'
+  )
+else
+  APP_SINK_INPUT=$(
+    pacmd list-sink-inputs | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?application\.process\.id = "([^\r]+)"\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "${APP_PID}" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+  )
+fi
+[ -z "$APP_SINK_INPUT" ] && die "Couldn't find App's sink_input. Does it play anything?."
+
+# Telegram has its own source output. Get it.
+TELEGRAM_SOURCE_OUTPUT=$(
+  pacmd list-source-outputs | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?application\.name = "([^\r]+)"\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg telegram | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+[ -z "$TELEGRAM_SOURCE_OUTPUT" ] && die "Couldn't find Telegram's source_output. Call somebody."
+
+
+# Telegram has its own source output. Get it.
+TELEGRAM_SOURCE_OUTPUT=$(
+  pacmd list-source-outputs | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?application\.name = "([^\r]+)"\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg telegram | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+[ -z "$TELEGRAM_SOURCE_OUTPUT" ] && die "Couldn't find Telegram's source_output. Call somebody."
+
+
+
+# Create our own sink 
+LOVE="Love"
+pacmd load-module module-null-sink sink_name="$LOVE"
+
+# The command above created both sink and source for redirecting audio to and from it
+LOVE_SOURCE=$(
+  pacmd list-sources | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?name: ([^\r]+)\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "$LOVE" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+LOVE_SINK=$(
+  pacmd list-sinks |
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?name: ([^\r]+)\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "$LOVE" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+
+# Where my sound goes to
+MY_SINK="alsa_output.pci-0000_00_1f.3.analog-stereo"
+MY_SOURCE="alsa_output.pci-0000_00_1f.3.analog-stereo.monitor"
+
+# Create one more sink for mutliplying application sound
+TMP="Tmp"
+pacmd load-module module-null-sink sink_name="$TMP"
+
+# The command above created both sink and source for redirecting audio to and from it
+TMP_SOURCE=$(
+  pacmd list-sources | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?name: ([^\r]+)\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "$TMP" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+TMP_SINK=$(
+  pacmd list-sinks |
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?name: ([^\r]+)\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "$TMP" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+
+
+# The scheme:
+#                                              
+#                            --|      |--       --|
+#   -- mic ---------------x--> | LOVE | --------> | Telegram
+#                         |  __|      |--       --|
+#                         |
+#            --|      |-- |                     --|
+#   -- app --> | TMP  | --x---------------------> | MY_SINK
+#            __|      |--                       --|
+#
+
+# Redirect application sound into TMP
+pactl move-sink-input $APP_SINK_INPUT $TMP_SINK
+
+# Redirect sound from an application into LOVE_SINK and MY_SINK
+pactl load-module module-loopback latency_msec=1 \
+  sink="$LOVE" \
+  source="$TMP_SOURCE"
+
+pactl load-module module-loopback latency_msec=1 \
+  sink="$MY_SINK" \
+  source="$TMP_SOURCE"
+
+# Redirect microphone into LOVE
+pactl load-module module-loopback latency_msec=1 \
+  sink="$LOVE" \
+  source="$MY_SOURCE"
+  
+
+
+# Tell telegram to record from our source
+pacmd move-source-output $TELEGRAM_SOURCE_OUTPUT $LOVE_SOURCE
+
+# Wait until finished
+echo "Press any button when finished"
+read
+

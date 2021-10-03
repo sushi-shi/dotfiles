@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-cd ~/HoMM3_ENG && ~/HoMM3_ENG/start.sh

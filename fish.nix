@@ -34,16 +34,16 @@
 
 
 
-    cbuild="cabal build --enable-tests --enable-benchmarks --write-ghc-environment-files=always -O0";
-    ctest="cabal test --enable-tests --test-show-details=direct -O0";
-    cbench="cabal bench --enable-benchmarks -O0";
-    crun="cabal run -O0";
-    cclean="cabal clean";
-    cupdate="cabal update";
-    crepl="cabal repl --build-depends pretty-simple";
-    cdoc="cabal haddock --enable-documentation";
-    cdochackage="cabal haddock --enable-documentation --haddock-for-hackage";
-    cdist="cabal sdist";
+    cbuild      = "cabal build --enable-tests --enable-benchmarks --write-ghc-environment-files=always -O0";
+    ctest       = "cabal test --enable-tests --test-show-details=direct -O0";
+    cbench      = "cabal bench --enable-benchmarks -O0";
+    crun        = "cabal run -O0";
+    cclean      = "cabal clean";
+    cupdate     = "cabal update";
+    crepl       = "cabal repl --build-depends pretty-simple";
+    cdoc        = "cabal haddock --enable-documentation";
+    cdochackage = "cabal haddock --enable-documentation --haddock-for-hackage";
+    cdist       = "cabal sdist";
   };
   programs.fish.shellAbbrs = {
     "ns"   = "nix-shell --command fish";
@@ -78,15 +78,6 @@
     "day"  = " jrnl A though of the day.";
 
     # Spawn a new terminal instance.
-    "c"    = "$TERM & ; disown";
-
-    "cb" = "cabal build";
-    "cr" = "cabal run";
-    "cg" = "cabal repl"; # ghci
-
-    "sb" = "stack build";
-    "sr" = "stack run";
-
     "nc" = "ncmpcpp";
 
     "rgi"  = "rg --ignore-case";
@@ -96,7 +87,17 @@
 
     "yd"   = ''youtube-dl'';
     "yda"  = ''youtube-dl --extract-audio --audio-format "best" --audio-quality 0'';
-    "gd"   = ''gallery-dl'';
+
+    "g" = ''git'';
+    "gd" = ''git diff'';
+    "ga" = ''git add'';
+    "gc" = ''git commit'';
+    "gt" = ''git checkout'';
+
+    "c" = ''cargo'';
+    "cr" = ''cargo run'';
+    "cb" = ''cargo build'';
+    "ct" = ''cargot test'';
 
     # query system-wide packages
     "nq"   = ''
@@ -131,5 +132,7 @@
     bind \cg 'prefix_line command'
     # And control-t to insert sudo
     bind \ct 'prefix_line sudo'
+    bind \cs 'prefix_line steam-run'
+    bind \cb 'prefix_line RUST_BACKTRACE=1'
   '';
 }
