@@ -47,6 +47,30 @@
         "url": "https://github.com/morhetz/gruvbox/archive/bf2885a95efdad7bd5e4794dd0213917770d79b7.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
+    "happy_hacking.vim": {
+        "branch": "master",
+        "description": "Moved to https://gitlab.com/yorickpeterse/happy_hacking.vim",
+        "homepage": "",
+        "owner": "YorickPeterse",
+        "repo": "happy_hacking.vim",
+        "rev": "e2e73d9cac5ff7acfc37bd090f1d709eac94c9a9",
+        "sha256": "0sml70vxmpgjks3s3z0fr08mmkdjypbp284k3z0kxl2gqna00wrd",
+        "type": "tarball",
+        "url": "https://github.com/YorickPeterse/happy_hacking.vim/archive/e2e73d9cac5ff7acfc37bd090f1d709eac94c9a9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "happy_rusting.vim": {
+        "branch": "master",
+        "description": "Moved to https://gitlab.com/yorickpeterse/happy_hacking.vim",
+        "homepage": "",
+        "owner": "sushi-shi",
+        "repo": "happy_rusting.vim",
+        "rev": "36fd6caa15b56941fe8be7d3526304c1ba64330e",
+        "sha256": "1cx30y93rlfm8y71rs5dqbjg4mxwskyw9rxwry1d5lsp1aigqzyi",
+        "type": "tarball",
+        "url": "https://github.com/sushi-shi/happy_rusting.vim/archive/36fd6caa15b56941fe8be7d3526304c1ba64330e.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "indentLine": {
         "branch": "master",
         "description": "A vim plugin to display the indention levels with thin vertical lines",

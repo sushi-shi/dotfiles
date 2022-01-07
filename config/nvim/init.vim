@@ -2,8 +2,6 @@
 " au ColorScheme farout  hi Comment           ctermfg=242 guifg=#6b7089
 " au ColorScheme nord    hi SignatureMarkText ctermfg =1 ctermbg=234
 " au ColorScheme iceberg hi SignatureMarkText ctermfg =1 ctermbg=234
-set background=dark
-colorscheme gruvbox
 
 " Default settings for using CoC
 source ~/.config/nvim/coc.vim
@@ -159,7 +157,10 @@ nnoremap <A-l> :SidewaysRight<cr>
 " TODO RUST SPECIFIC MOVE 
 let g:rustfmt_autosave = 1
 
-nnoremap <leader>db :GdbBreakpointToggle<CR>
+nnoremap <leader>dr :GdbRun<CR>
+
+nnoremap <leader>da :GdbBreakpointToggle<CR>
+nnoremap <leader>dk :GdbBreakpointClearAll<CR>
 nnoremap <leader>du :GdbUntil<CR>
 nnoremap <leader>dc :GdbContinue<CR>
 nnoremap <leader>dn :GdbNext<CR>
@@ -168,3 +169,10 @@ nnoremap <leader>df :GdbFinish<CR>
 
 nnoremap <leader>dp :GdbFrameUp<CR>
 nnoremap <leader>dw :GdbFrameDown<CR>
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+
+set background=dark
+colorscheme gruvbox
+" set termguicolors

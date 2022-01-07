@@ -6,15 +6,18 @@
 
   home.packages = with pkgs; let
     unfree = [
+      skypeforlinux
       discord
-      # zoom-us
       steam
-
       slack
       atlassian-jira
+      google-chrome
+      spotify
+      # zoom-us
+
+      yt-dlp
 
       clipit
-      google-chrome
 
       audio-recorder
       openjdk8
@@ -49,6 +52,7 @@
 
     utils = [
       ghc
+      spotdl
       youtube-dl
       gallery-dl
       xdot
@@ -87,7 +91,7 @@
 
     apps = [
       libreoffice
-      vlc 
+      # vlc 
 
       lxqt.pavucontrol-qt
 

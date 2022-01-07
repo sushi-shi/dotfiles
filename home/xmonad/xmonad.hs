@@ -134,11 +134,11 @@ myAdditionalKeys =
   , ((myModMask, xK_p), spawn "rofi -m -4 -show run")
   , ((myModMask .|. shiftMask, xK_p), spawn "rofi -m -4 -show window")
   ]
-  -- ++
-  -- [((m .|. myModMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-  --     | (key, sc) <- zip [xK_e, xK_w, xK_r] [0..]
-  --     , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
-  -- ]
+  ++
+  [((m .|. myModMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+      | (key, sc) <- zip [xK_e, xK_w, xK_r] [0..]
+      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+  ]
 
 
 swapNumber :: Int -> Stack a -> Stack a
@@ -339,17 +339,17 @@ main = do
    -}
   dpy <- openDisplay ""
   ns  <- List.length <$> getScreenInfo dpy
-  for_ [0 .. ns - 1] $ \n -> spawn $ "xmobar --screen " <> show n
+  for_ [0 .. ns - 1] $ \n -> spawn $ "xmobar --screen " <> show (ns - n - 1)
 
 
   {-
     feh. Set up background image. 
    -}
-  backgroundPath <- pure "/home/sheep/Pictures/Background/"
-  images <- map (backgroundPath <>) . List.filter (\i -> i /= ".." || i /= ".") <$> getDirectoryContents backgroundPath
-  image <- randomRIO (0, List.length images - 1)
+  -- backgroundPath <- pure "/home/sheep/Pictures/Background/"
+  -- images <- map (backgroundPath <>) . List.filter (\i -> i /= ".." || i /= ".") <$> getDirectoryContents backgroundPath
+  -- image <- randomRIO (0, List.length images - 1)
 
-  spawn $ "feh --bg-fill " <> images !! image
+  -- spawn $ "feh --bg-fill " <> images !! image
 
   {-
     Start XMonad.

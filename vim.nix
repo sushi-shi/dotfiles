@@ -27,6 +27,7 @@ let
 
     # Language server
     coc-nvim
+    coc-prettier
   ];
 
   lazyPlugins  = with vimPlugins; [
@@ -58,11 +59,13 @@ let
   nivLazyPlugins = map mkPlugin [
     # Themes
     "gruvbox"
+    "happy_hacking.vim"
+    "happy_rusting.vim"
     "vim-farout"
   ];
 
   nivEagerPlugins = map mkPlugin [
-    "nvim-gdb"
+    # "nvim-gdb"
     "rust.vim"         # I use rust.vim mostly for rustfmt only TODO
     "vim-ingo-library" # library to be used for other (which?) plugins
     "bclose.vim"       # Closes buffer, leaves the window
@@ -83,7 +86,7 @@ let
     #     Edit the text (:%s/foo/bar/g etc)
     #     Then copy the resulting text to another application ("*yie)
 
-    "vim-ripgrep"
+    # "vim-ripgrep"
     
     "sideways.vim"    # move arguments in functions
     "splitjoin.vim"   # context aware splits and joins

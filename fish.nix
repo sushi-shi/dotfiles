@@ -85,8 +85,8 @@
     # list sizes
     "lss"  = "du -sh * | sort -rh | column -t";
 
-    "yd"   = ''youtube-dl'';
-    "yda"  = ''youtube-dl --extract-audio --audio-format "best" --audio-quality 0'';
+    "yd"   = ''yt-dlp'';
+    "yda"  = ''yt-dlp --extract-audio --audio-format "best" --audio-quality 0'';
 
     "g" = ''git'';
     "gd" = ''git diff'';
