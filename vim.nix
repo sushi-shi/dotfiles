@@ -16,16 +16,18 @@ let
     vim-matchup         # new motions: g%, [%, ]%, z%
     vim-textobj-user    
 
-    # # Status line
+    # Status line
     vim-airline        # New status line
     vim-airline-themes # 'minimalist' theme
     vim-bufferline     # Show open buffers
 
-    # # Language pack
+    # Language pack
+    # NOTE: Solidity is slow
     vim-polyglot
 
 
     # Language server
+    # NOTE: It leaks and slows down after a while
     coc-nvim
     coc-prettier
   ];

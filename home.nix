@@ -1,12 +1,8 @@
 { config, pkgs, lib, ... }:
 {
-  imports =
-    [
-      ./mpv.nix
-      ./vim.nix
-      ./fish.nix
-      ./packages.nix
-    ];
+  imports = [
+    ./packages.nix
+  ];
 
   # Copy everything from `./config` into `~/.config`
   xdg.configFile."." = {
@@ -26,17 +22,12 @@
         else { text = builtins.readFile name;   };
     in mapAttrs' each files;
 
+  # .Xresources
   xresources.properties = {
     "*background" = "#282828";
     "*foreground" = "#e2a478";
     "*font"       = "Hasklig";
   };
-
-  services.lorri.enable = true;
-  services.mpd.enable = true;
-  services.mpd.musicDirectory = "/home/sheep/Music";
-
-  services.dunst.enable = true;
 
 
   programs.home-manager = {

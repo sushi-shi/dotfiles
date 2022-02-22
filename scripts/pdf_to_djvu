@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-usage="pdf2djvu' files"
+usage="pdf_to_djvu files"
 
 if [ -z "$1" ]; then
   echo "${usage}"

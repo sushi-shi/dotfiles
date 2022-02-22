@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Get to the root of cabal project
+
 set -e
 
 command_exists () {
