@@ -25,6 +25,9 @@
 
   home.packages = with pkgs; let
     utils = [
+      ffmpeg
+      sd            # better sed
+      gromit-mpx    # on-screen drawing
       ghc
       spotdl        # spotify-dl (from YouTube)
       yt-dlp        # better youtube-dl
@@ -58,12 +61,16 @@
       gron          # greppable JSON
       ripgrep-all   # greppable pdfs, images, subtitles, all
 
+      pasystray     # moving PulseAudio sources/sinks
       parallel-full # execute jobs in parallel
+      torsocks
     ]; 
 
     apps = [
+      signal-desktop # Secure telegram
+      tdesktop
+
       zulip         # OS slack!
-      pasystray     # moving PulseAudio sources/sinks
 
       audio-recorder
       wineWowPackages.base
@@ -75,25 +82,29 @@
 
       lxqt.pavucontrol-qt
 
-      tdesktop
-
       mpd           # music server
       ncmpcpp       # music player
       sxiv        # Simple X Image Viewer
 
-      torsocks
       jrnl          # diary
       irssi         # IRC Channel
 
       gnome3.cheese #  webcam
     ];
 
+    games = [
+      wesnoth
+    ];
+
     unfree = [
+      # Apps
       skypeforlinux
-      steam
       slack
       google-chrome
       spotify
+
+      # Games
+      steam
     ];
 
     iphone = [
@@ -111,6 +122,7 @@
       xss-lock
       xbindkeys
       xorg.xmodmap
+      (pkgs.callPackage ./pkgs/joshuto/default.nix {})
       (pkgs.callPackage ./pkgs/kalker/default.nix {})
       (pkgs.callPackage ./pkgs/termusic/default.nix {})
 
@@ -142,5 +154,5 @@
 
 
   in 
-    apps ++ utils ++ x-related ++ iphone ++ unfree;
+    apps ++ utils ++ x-related ++ iphone ++ unfree ++ games;
 }

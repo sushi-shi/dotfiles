@@ -66,7 +66,7 @@
     "ve"   = "vim ~/.config/nixpkgs/home/vimrc.vim";
     "vs"   = "sudoedit";
     "ka"   = "killall";
-    "r"    = "ranger";
+    "r"    = "joshuto";
 
     "wd"   = "pwd";  # p is hard to type
     "to"   = "htop"; # any problems with that?
