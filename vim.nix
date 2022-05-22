@@ -8,6 +8,7 @@ let
     # Enhancing vim language
     ReplaceWithRegister # gr<object>
     fzf-vim fzfWrapper  # :Files, :Rg, :Colors
+    vim-abolish         # :%S/badjob/goodjob/g
     vim-commentary      # gc<motion>
     vim-easy-align      # ga<object><char>
     vim-repeat          # .

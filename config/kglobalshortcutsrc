@@ -56,7 +56,7 @@ _k_friendly_name=Session Management
 [kwin]
 Activate Window Demanding Attention=none,Ctrl+Alt+A,Activate Window Demanding Attention
 Decrease Opacity=none,none,Decrease Opacity of Active Window by 5 %
-Expose=none,Ctrl+F9,Toggle Present Windows (Current desktop)
+Expose=none,Ctrl+F10,Toggle Present Windows (Current desktop)
 ExposeAll=none,Ctrl+F10\tLaunch (C),Toggle Present Windows (All desktops)
 ExposeClass=none,Ctrl+F7,Toggle Present Windows (Window class)
 Increase Opacity=none,none,Increase Opacity of Active Window by 5 %
@@ -246,7 +246,7 @@ clipboard_action=none,Ctrl+Alt+X,Enable Clipboard Actions
 cycleNextAction=none,none,Next History Item
 cyclePrevAction=none,none,Previous History Item
 edit_clipboard=none,none,Edit Contents...
-manage activities=none,Meta+Q,Activities...
+manage activities=none,none,Activities...
 next activity=none,none,Walk through activities
 previous activity=none,none,Walk through activities (Reverse)
 repeat_action=none,Ctrl+Alt+R,Manually Invoke Action on Current Clipboard

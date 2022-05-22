@@ -3,7 +3,8 @@
 
 while true; do 
   eval $@
-  if [[ "$?" -nq 0 ]]; then 
+  if [[ "$?" -ne 0 ]]
+  then 
     break
   fi
 done

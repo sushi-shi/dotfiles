@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+function solana() {
+  steam-run ~/.local/share/solana/install/active_release/bin/solana "$@"
+}
+
+solana "$@"

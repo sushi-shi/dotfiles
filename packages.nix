@@ -25,6 +25,9 @@
 
   home.packages = with pkgs; let
     utils = [
+      wget
+      paprefs       # multiple outputs
+      entr          # run command on file update
       ffmpeg
       sd            # better sed
       gromit-mpx    # on-screen drawing
@@ -63,12 +66,13 @@
 
       pasystray     # moving PulseAudio sources/sinks
       parallel-full # execute jobs in parallel
+      ncdu          # disk usage analyzer
       torsocks
     ]; 
 
     apps = [
       signal-desktop # Secure telegram
-      tdesktop
+      # tdesktop
 
       zulip         # OS slack!
 
@@ -76,7 +80,7 @@
       wineWowPackages.base
       zathura
       gimp imagemagick
-      cloc
+      tokei         # count lines of code
 
       libreoffice
 
@@ -84,7 +88,7 @@
 
       mpd           # music server
       ncmpcpp       # music player
-      sxiv        # Simple X Image Viewer
+      sxiv          # Simple X Image Viewer
 
       jrnl          # diary
       irssi         # IRC Channel
@@ -93,18 +97,18 @@
     ];
 
     games = [
-      wesnoth
     ];
 
     unfree = [
       # Apps
+      tixati
       skypeforlinux
       slack
       google-chrome
       spotify
 
       # Games
-      steam
+      steam-run-native
     ];
 
     iphone = [
@@ -133,7 +137,12 @@
     ];
 
     unused = [
+      # games
+      brogue
+      wesnoth
+
       # unfree
+      steam
       discord
       atlassian-jira
       zoom-us
@@ -147,6 +156,7 @@
       qt5.qttools   # QT interface (TODO interface to what?)
 
       # apps
+      tor-browser-bundle-bin # torproject.org is banned
       glade         # gtk3 interface designer
       vlc           # audio player
 

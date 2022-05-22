@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+function spl-token() {
+  steam-run ~/.local/share/solana/install/active_release/bin/spl-token "$@"
+}
+
+spl-token "$@"

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+function solana-keygen() {
+  steam-run ~/.local/share/solana/install/active_release/bin/solana-keygen "$@"
+}
+
+solana-keygen "$@"

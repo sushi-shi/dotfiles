@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+function anchor() {
+  steam-run ~/.cargo/bin/anchor "$@"
+}
+
+anchor "$@"
