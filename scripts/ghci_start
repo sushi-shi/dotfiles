@@ -1,0 +1,5 @@
+#!/bin/sh
+
+name="ghci"
+
+alacritty --class "${name}","${name}" --title "${name}" --command nix-shell Projects/shell.nix --command "${name}"

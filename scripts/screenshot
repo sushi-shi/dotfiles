@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd "${HOME}"/Pictures/screenshots
+
+MODE=$1
+if [ -z "${MODE}" ]; then
+  echo "mode is not provided: [select, active, full] are allowed"
+  exit 1
+fi
+
+OUTPUT=
+case "${MODE}" in
+  (select) OUTPUT=$(shotgun --geometry $(slop 2>/dev/null) 2>&1);;
+  (active) OUTPUT=$(shotgun --id $(xdotool getactivewindow) 2>&1);;
+  (full)   OUTPUT=$(shotgun 2>&1);;
+  (*)      echo "unknown mode: [select, active, full] are allowed"; exit 1;;
+esac
+
+IMAGE=$(echo "${OUTPUT}" | awk '{print $NF}')
+xclip -selection clipboard -t image/png -i "${HOME}"/Pictures/screenshots/"${IMAGE}"
+
+sleep 1

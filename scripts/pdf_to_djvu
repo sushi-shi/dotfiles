@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+usage="pdf_to_djvu files"
+
+if [ -z "$1" ]; then
+  echo "${usage}"
+  exit 1
+fi
+
+for file in "$@"
+do
+  if ! [ -f "${file}" ]; then
+    echo "File ${file} does not exists or a directory. Skipping."
+    continue
+  fi
+  name=$(basename -- "${file}")
+  name="${name%.*}.djvu"
+
+  pdf2djvu "${file}" -o "${name}"
+
+  echo "Converted!"
+done
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+name="irssi"
+
+alacritty --class "${name}","${name}" --title "${name}" --command "${name}"

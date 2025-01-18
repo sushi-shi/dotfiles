@@ -1,0 +1,11 @@
+use_trash = false
+xdg_open_fork = true
+
+[display]
+automatically_count_files = true
+show_icons = false
+
+[display.sort]
+method = "ext"
+reverse = false
+

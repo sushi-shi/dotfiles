@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+
+name="${1:-Minsk}"
+
+file=$(mktemp -d)
+
+function clearup {
+  rm ./$name.png
+  rmdir $file
+}
+
+trap clearup INT TERM EXIT
+
+
+cd $file
+
+wget wttr.in/$name.png
+mogrify -resize 150% $name.png 
+feh --bg-center ./$name.png
+

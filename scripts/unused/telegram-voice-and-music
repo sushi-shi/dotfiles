@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+set -e
+
+die() {
+  echo $1
+  exit 1
+}
+
+cleanup() {
+  # Unload all modules
+  pactl unload-module module-loopback
+  pactl unload-module module-null-sink
+}
+
+
+# Telegram has its own source output. Get it.
+TELEGRAM_SOURCE_OUTPUT=$(
+  pacmd list-source-outputs | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?application\.name = "([^\r]+)"\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg telegram | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+[ -z "$TELEGRAM_SOURCE_OUTPUT" ] && die "Couldn't find Telegram's source_output. Call somebody."
+
+
+trap cleanup EXIT
+
+# Create our own sink 
+LOVE="Love"
+pacmd load-module module-null-sink sink_name="$LOVE"
+
+# The command above created both sink and source for redirecting audio to and from it
+LOVE_SOURCE=$(
+  pacmd list-sources | 
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?name: ([^\r]+)\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "$LOVE" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+LOVE_SINK=$(
+  pacmd list-sinks |
+    tr '\n' '\r' |
+    perl -pe 's/.*? *index: ([0-9]+).+?name: ([^\r]+)\r.+?(?=index:|$)/\2:\1\r/g' |
+    tr '\r' '\n' |
+    rg "$LOVE" | perl -pe 's|.*:([[:digit:]]*)|\1|g'
+)
+
+# Redirect microphone into it
+pactl load-module module-loopback latency_msec=1 sink="$LOVE"
+
+# Redirect application sound into it as well
+pactl load-module module-loopback latency_msec=1 \
+  sink="$LOVE" \
+  source="alsa_output.pci-0000_00_1f.3.analog-stereo.monitor"
+
+# Tell telegram to record from our source
+pacmd move-source-output $TELEGRAM_SOURCE_OUTPUT $LOVE_SOURCE
+
+# Wait until finished
+echo "Press any button when finished"
+read
+

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+xbindkeys || true
+feh --bg-center /home/sheep/1710329028125778667.jpg || true

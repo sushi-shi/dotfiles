@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+function cargo-build-bpf() {
+  steam-run ~/.local/share/solana/install/active_release/bin/solana-test-validator "$@"
+}
+
+cargo-build-bpf "$@"

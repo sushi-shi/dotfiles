@@ -1,0 +1,13 @@
+#!/usr/bin/env bash 
+
+set -e
+
+WINDOW=$(slop --format=':0.0+%x,%y %wx%h')
+WINDOW_PROPS=($WINDOW)
+WINDOW_OFFSET=${WINDOW_PROPS[0]}
+WINDOW_SIZE=${WINDOW_PROPS[1]}
+
+echo $WINDOW_OFFSET
+echo $WINDOW_SIZE
+
+ffmpeg -video_size ${WINDOW_SIZE} -framerate 25 -f x11grab -i ${WINDOW_OFFSET} output.mp4

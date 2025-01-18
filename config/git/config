@@ -1,0 +1,42 @@
+[user]
+	email = sushi.is.shy@gmail.com
+	name = sushi-shi
+
+[alias]
+  a = add -v
+  r = restore
+  pl = log --pretty=format:\"%Cgreen%h%Creset - %an, %ar%n %Cblue %s %n\" 
+
+  first = !git checkout $(git rev-list --all        | tail -n 1)
+  next  = !git checkout $(git rev-list HEAD..master | tail -n 1)
+  last  = !git checkout master
+  prev  = !git checkout HEAD~
+
+  st = status --short -uno
+  ci = commit
+  ca = commit --amend
+  caa = commit -a --amend
+  br = branch
+  co = checkout
+  df = diff
+  lg = log -p --pretty=fuller --abbrev-commit
+  lgg = log --pretty=fuller --abbrev-commit --stat
+  up = pull --rebase
+  latest = log @^{/RELEASE-NOTES:.synced}.. 
+  brt = "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset);%(color:yellow)%(refname:short)%(color:reset);%(contents:subject);%(color:green)(%(committerdate:relative))%(color:blue);<%(authorname)>' | column -t -s ';'"
+
+[core]
+	editor = nvim
+[advice]
+	detachedHead = false
+  
+[diff]
+  ; external = difft
+
+
+; [url "ssh://git@github.com/"]
+;   insteadOf = https://github.com/
+; [url "ssh://git@gitlab.com/"]
+;   insteadOf = https://gitlab.com/
+; [url "ssh://git@bitbucket.org/"]
+;   insteadOf = https://bitbucket.org/

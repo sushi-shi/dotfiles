@@ -1,0 +1,8 @@
+incremental_seeking = yes
+seek_time = 10
+
+
+lyrics_directory                            = ~/.lyrics/
+follow_now_playing_lyrics                   = yes
+store_lyrics_in_song_dir                    = no
+fetch_lyrics_for_current_song_in_background = yes

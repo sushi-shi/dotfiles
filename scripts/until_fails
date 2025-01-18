@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+while true; do 
+  eval $@
+  if [[ "$?" -ne 0 ]]
+  then 
+    break
+  fi
+done
+
+

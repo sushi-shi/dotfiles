@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+run="$1"
+if [ "$run" = "" ]; then
+  echo "Usage: run command-to-run args..." >&2
+  exit 1
+fi
+shift
+export LD_LIBRARY_PATH=/lib64:/lib32:/steamrt/amd64/lib/x86_64-linux-gnu:/steamrt/amd64/lib:/steamrt/amd64/usr/lib/x86_64-linux-gnu:/steamrt/amd64/usr/lib:/steamrt/i386/lib/i386-linux-gnu:/steamrt/i386/lib:/steamrt/i386/usr/lib/i386-linux-gnu:/steamrt/i386/usr/lib${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH
+export STEAM_LD_LIBRARY_PATH="$STEAM_LD_LIBRARY_PATH${STEAM_LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH"
+
+if [ -r $HOME/.local/share/Steam/bootstrap.tar.xz ]; then
+  chmod +w $HOME/.local/share/Steam/bootstrap.tar.xz
+fi
+
+exec -- "$run" "$@"
